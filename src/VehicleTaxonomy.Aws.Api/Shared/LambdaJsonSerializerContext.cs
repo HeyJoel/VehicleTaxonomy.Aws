@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Amazon.Lambda.APIGatewayEvents;
 using VehicleTaxonomy.Aws.Domain.Makes;
+using VehicleTaxonomy.Aws.Domain.Models;
 
 namespace VehicleTaxonomy.Aws.Api;
 
@@ -18,6 +19,8 @@ namespace VehicleTaxonomy.Aws.Api;
 [JsonSerializable(typeof(ApiResponse))]
 [JsonSerializable(typeof(Make))]
 [JsonSerializable(typeof(AddMakeCommand))]
+[JsonSerializable(typeof(Model))]
+[JsonSerializable(typeof(AddModelCommand))]
 public partial class LambdaJsonSerializerContext : JsonSerializerContext
 {
     // By using this partial class derived from JsonSerializerContext, we can generate reflection free JSON Serializer code at compile time

@@ -7,8 +7,10 @@ namespace VehicleTaxonomy.Aws.Api;
 
 public class MakesApi
 {
+    const string ROUTE_PREFIX = "/makes";
+
     [LambdaFunction]
-    [RestApi(LambdaHttpMethod.Get, "/makes")]
+    [RestApi(LambdaHttpMethod.Get, ROUTE_PREFIX)]
     public async Task<IHttpResult> ListMakesHandler(
         [FromServices] ListMakesQueryHandler listMakesQueryHandler,
         [FromQuery] string? name,
@@ -26,7 +28,7 @@ public class MakesApi
     }
 
     [LambdaFunction]
-    [RestApi(LambdaHttpMethod.Get, "/makes/is-unique")]
+    [RestApi(LambdaHttpMethod.Get, ROUTE_PREFIX + "/is-unique")]
     public async Task<IHttpResult> IsMakeUniqueHandler(
         [FromServices] IsMakeUniqueQueryHandler isMakeUniqueQueryHandler,
         [FromQuery] string name,
@@ -44,7 +46,7 @@ public class MakesApi
     }
 
     [LambdaFunction]
-    [RestApi(LambdaHttpMethod.Post, "/makes")]
+    [RestApi(LambdaHttpMethod.Post, ROUTE_PREFIX)]
     public async Task<IHttpResult> AddMakeHandler(
         [FromServices] AddMakeCommandHandler addMakeCommandHandler,
         [FromBody] AddMakeCommand command,
@@ -59,10 +61,10 @@ public class MakesApi
     }
 
     [LambdaFunction]
-    [RestApi(LambdaHttpMethod.Delete, "/makes/{id}")]
+    [RestApi(LambdaHttpMethod.Delete, ROUTE_PREFIX + "/{makeId}")]
     public async Task<IHttpResult> DeleteMakeHandler(
         [FromServices] DeleteMakeCommandHandler deleteMakeCommandHandler,
-        string id,
+        string makeId,
         ILambdaContext context
         )
     {
@@ -70,7 +72,7 @@ public class MakesApi
 
         var commandResponse = await deleteMakeCommandHandler.ExecuteAsync(new()
         {
-            MakeId = id
+            MakeId = makeId
         });
 
         return ApiResponseHelper.ToHttpResult(commandResponse);

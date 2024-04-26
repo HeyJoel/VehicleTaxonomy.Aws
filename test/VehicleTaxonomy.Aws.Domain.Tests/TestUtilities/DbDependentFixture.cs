@@ -13,7 +13,7 @@ namespace VehicleTaxonomy.Aws.Domain.Tests;
 /// db fixture should be re-used across multiple tests, using
 /// unique keys to scope data to each test.
 /// </summary>
-public class DbDependentFixture : IAsyncLifetime
+public sealed class DbDependentFixture : IAsyncLifetime
 {
     private readonly DynamoDbContainer _container = new DynamoDbBuilder().Build();
 

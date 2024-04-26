@@ -1,11 +1,11 @@
 using FluentValidation;
 using VehicleTaxonomy.Aws.Infrastructure.Db;
 
-namespace VehicleTaxonomy.Aws.Domain.Makes;
+namespace VehicleTaxonomy.Aws.Domain.Models;
 
-public class DeleteMakeCommandValidator : AbstractValidator<DeleteMakeCommand>
+public class ListModelsQueryValidator : AbstractValidator<ListModelsQuery>
 {
-    public DeleteMakeCommandValidator()
+    public ListModelsQueryValidator()
     {
         RuleFor(c => c.MakeId).NotEmpty().IsSlugId(VehicleTaxonomyTableDefinition.MakeNameMaxLength);
     }

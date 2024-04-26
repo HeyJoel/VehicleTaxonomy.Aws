@@ -3,7 +3,7 @@ using Amazon.DynamoDBv2.DataModel;
 namespace VehicleTaxonomy.Aws.Infrastructure.Db;
 
 [DynamoDBTable(nameof(VehicleTaxonomy))]
-public class VehicleTaxonomy
+internal class VehicleTaxonomy
 {
     /// <summary>
     /// The Partition Key makeup depends on the entity e.g. for

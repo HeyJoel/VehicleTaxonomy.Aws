@@ -35,4 +35,8 @@ public class VehicleTaxonomyTableDefinition : IDynamoDbTableDefinition
     ];
 
     public static readonly VehicleTaxonomyTableDefinition Instance = new();
+
+    public const int MakeNameMaxLength = 50;
+    public const int ModelNameMaxLength = 50;
+    public const int VariantNameMaxLength = 100;
 }

@@ -1,4 +1,4 @@
-namespace VehicleTaxonomy.Aws.Api.Tests.Tests.Shared;
+namespace VehicleTaxonomy.Aws.Api.Tests.Shared;
 
 /// <summary>
 /// API tests already test the OK condition. Here we just need to cover

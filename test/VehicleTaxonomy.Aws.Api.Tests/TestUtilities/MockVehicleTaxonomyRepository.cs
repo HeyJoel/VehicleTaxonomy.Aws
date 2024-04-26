@@ -36,6 +36,7 @@ public class MockVehicleTaxonomyRepository : IVehicleTaxonomyRepository
     public Task<IReadOnlyCollection<VehicleTaxonomyDocument>> ListAsync(VehicleTaxonomyEntityType entityType, string? parentEntityId, CancellationToken cancellationToken = default)
     {
         var results = _db
+            .Where(d => d.EntityType == entityType && d.ParentId == parentEntityId)
             .OrderBy(d => d.Name)
             .ToArray();
 
