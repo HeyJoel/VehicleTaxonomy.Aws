@@ -87,3 +87,4 @@ appsettings.local.json
 .vscode
 
 /docker
+.~lock.*

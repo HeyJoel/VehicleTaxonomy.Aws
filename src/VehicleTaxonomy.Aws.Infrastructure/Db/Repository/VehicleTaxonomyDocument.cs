@@ -15,7 +15,7 @@ public class VehicleTaxonomyDocument
 
     /// <summary>
     /// Unique id of the entity i.e. MakeId, ModelId or VariantId
-    /// e.g. "volkswagen" or "bmw-3-series".
+    /// e.g. "volkswagen", "3-series" or "polo-se-petrol-1-3".
     /// </summary>
     public string Id { get; set; } = string.Empty;
 
@@ -36,4 +36,9 @@ public class VehicleTaxonomyDocument
     /// The date the record was created, in UTC.
     /// </summary>
     public DateTime CreateDate { get; set; }
+
+    /// <summary>
+    /// Additional fields relating only to "variant" entities.
+    /// </summary>
+    public VariantData? VariantData { get; set; }
 }

@@ -31,11 +31,26 @@ internal class VehicleTaxonomy
     public string Name { get; set; } = string.Empty;
 
     /// <summary>
-    /// A copy of the make id (also stored in SK), but only present for makes
-    /// allowing for a sparse GSI that can be used to query all makes.
+    /// Makes only. A copy of the make id (also stored in SK), but only
+    /// present for makes allowing for a sparse GSI that can be used to
+    /// query all makes.
     /// </summary>
     [DynamoDBGlobalSecondaryIndexHashKey("Makes")]
     public string? MakeId { get; set; }
+
+    /// <summary>
+    /// Variant only. The type of fuel the vehicle uses. Maps
+    /// to the FuelCategory enum in the domain.
+    /// </summary>
+    public string? FuelCategory { get; set; }
+
+    /// <summary>
+    /// Variant only. The size of the engine in Cubic Centimetres (CC) e.g. 125, 600, 3800.
+    /// This is more customer-friendly "Badge Size" rather than the exact value,
+    /// which has been rounded to a sensible bracket e.g. 49 is rounded to 50,
+    /// or 2335 is rounded to 2400.
+    /// </summary>
+    public int? EngineSizeInCC { get; set; }
 
     /// <summary>
     /// The date the record was created in UTC.

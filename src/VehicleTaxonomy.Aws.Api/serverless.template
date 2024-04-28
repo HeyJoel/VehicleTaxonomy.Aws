@@ -274,6 +274,142 @@
           }
         }
       }
+    },
+    "VehicleTaxonomyAwsApiVariantsApiListVariantsHandlerGenerated": {
+      "Type": "AWS::Serverless::Function",
+      "Metadata": {
+        "Tool": "Amazon.Lambda.Annotations",
+        "SyncedEvents": [
+          "RootGet"
+        ]
+      },
+      "Properties": {
+        "Runtime": "dotnet8",
+        "CodeUri": ".",
+        "MemorySize": 512,
+        "Timeout": 30,
+        "Policies": [
+          "AWSLambdaBasicExecutionRole"
+        ],
+        "PackageType": "Zip",
+        "Handler": "VehicleTaxonomy.Aws.Api",
+        "Environment": {
+          "Variables": {
+            "ANNOTATIONS_HANDLER": "ListVariantsHandler"
+          }
+        },
+        "Events": {
+          "RootGet": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/makes/{makeId}/models/{modelId}/variants",
+              "Method": "GET"
+            }
+          }
+        }
+      }
+    },
+    "VehicleTaxonomyAwsApiVariantsApiIsVariantUniqueHandlerGenerated": {
+      "Type": "AWS::Serverless::Function",
+      "Metadata": {
+        "Tool": "Amazon.Lambda.Annotations",
+        "SyncedEvents": [
+          "RootGet"
+        ]
+      },
+      "Properties": {
+        "Runtime": "dotnet8",
+        "CodeUri": ".",
+        "MemorySize": 512,
+        "Timeout": 30,
+        "Policies": [
+          "AWSLambdaBasicExecutionRole"
+        ],
+        "PackageType": "Zip",
+        "Handler": "VehicleTaxonomy.Aws.Api",
+        "Environment": {
+          "Variables": {
+            "ANNOTATIONS_HANDLER": "IsVariantUniqueHandler"
+          }
+        },
+        "Events": {
+          "RootGet": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/makes/{makeId}/models/{modelId}/variants/is-unique",
+              "Method": "GET"
+            }
+          }
+        }
+      }
+    },
+    "VehicleTaxonomyAwsApiVariantsApiAddVariantHandlerGenerated": {
+      "Type": "AWS::Serverless::Function",
+      "Metadata": {
+        "Tool": "Amazon.Lambda.Annotations",
+        "SyncedEvents": [
+          "RootPost"
+        ]
+      },
+      "Properties": {
+        "Runtime": "dotnet8",
+        "CodeUri": ".",
+        "MemorySize": 512,
+        "Timeout": 30,
+        "Policies": [
+          "AWSLambdaBasicExecutionRole"
+        ],
+        "PackageType": "Zip",
+        "Handler": "VehicleTaxonomy.Aws.Api",
+        "Environment": {
+          "Variables": {
+            "ANNOTATIONS_HANDLER": "AddVariantHandler"
+          }
+        },
+        "Events": {
+          "RootPost": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/makes/{makeId}/models/{modelId}/variants",
+              "Method": "POST"
+            }
+          }
+        }
+      }
+    },
+    "VehicleTaxonomyAwsApiVariantsApiDeleteVariantHandlerGenerated": {
+      "Type": "AWS::Serverless::Function",
+      "Metadata": {
+        "Tool": "Amazon.Lambda.Annotations",
+        "SyncedEvents": [
+          "RootDelete"
+        ]
+      },
+      "Properties": {
+        "Runtime": "dotnet8",
+        "CodeUri": ".",
+        "MemorySize": 512,
+        "Timeout": 30,
+        "Policies": [
+          "AWSLambdaBasicExecutionRole"
+        ],
+        "PackageType": "Zip",
+        "Handler": "VehicleTaxonomy.Aws.Api",
+        "Environment": {
+          "Variables": {
+            "ANNOTATIONS_HANDLER": "DeleteVariantHandler"
+          }
+        },
+        "Events": {
+          "RootDelete": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/makes/{makeId}/models/{modelId}/variants/{variantId}",
+              "Method": "DELETE"
+            }
+          }
+        }
+      }
     }
   },
   "Outputs": {

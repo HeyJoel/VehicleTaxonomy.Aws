@@ -1,4 +1,4 @@
-namespace VehicleTaxonomy.Aws.Domain.Variants.Models;
+namespace VehicleTaxonomy.Aws.Domain.Variants;
 
 /// <summary>
 /// A simplified range of fuel types.

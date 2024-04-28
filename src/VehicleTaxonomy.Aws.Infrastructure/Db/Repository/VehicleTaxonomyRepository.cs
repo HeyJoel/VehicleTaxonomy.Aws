@@ -29,7 +29,7 @@ internal sealed class VehicleTaxonomyRepository : IVehicleTaxonomyRepository, ID
         if (entityType == VehicleTaxonomyEntityType.Make)
         {
             // The Makes GSI is a sparse index that only contains makes
-            // sowe can use scan to get all items
+            // so we can use scan to get all items
             asyncSearch = _dynamoDBContext.FromScanAsync<VehicleTaxonomy>(new ScanOperationConfig()
             {
                 IndexName = "Makes",
@@ -85,6 +85,12 @@ internal sealed class VehicleTaxonomyRepository : IVehicleTaxonomyRepository, ID
             MakeId = taxonomy.EntityType == VehicleTaxonomyEntityType.Make ? taxonomy.Id : null,
             CreateDate = taxonomy.CreateDate
         };
+
+        if (taxonomy.EntityType == VehicleTaxonomyEntityType.Variant && taxonomy.VariantData != null)
+        {
+            dbTaxonomy.EngineSizeInCC = taxonomy.VariantData.EngineSizeInCC;
+            dbTaxonomy.FuelCategory = taxonomy.VariantData.FuelCategory;
+        }
 
         await _dynamoDBContext.SaveAsync(dbTaxonomy, cancellationToken);
     }
