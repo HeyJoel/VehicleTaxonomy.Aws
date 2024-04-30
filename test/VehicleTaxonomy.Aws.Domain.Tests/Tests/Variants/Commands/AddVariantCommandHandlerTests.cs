@@ -29,7 +29,7 @@ public class AddVariantCommandHandlerTests
         var handler = scope.ServiceProvider.GetRequiredService<AddVariantCommandHandler>();
         var variantTestHelper = scope.ServiceProvider.GetRequiredService<VariantTestHelper>();
 
-        var (makeId, modelId) = await variantTestHelper.AddModelWithMakeAsync(uniqueData + "mk");
+        var (makeId, modelId) = await variantTestHelper.AddModelWithMakeAsync(uniqueData);
         var result = await handler.ExecuteAsync(new()
         {
             MakeId = makeId,
@@ -37,7 +37,7 @@ public class AddVariantCommandHandlerTests
             Name = name
         });
 
-        var dbRecord = await variantTestHelper.GetRawRecordAsync(modelId, id);
+        var dbRecord = await variantTestHelper.GetRawRecordAsync(makeId, modelId, id);
 
         using (new AssertionScope())
         {
@@ -56,7 +56,7 @@ public class AddVariantCommandHandlerTests
                     SK:
                       S: addvariantch-whenvalid-canadd
                     PK:
-                      S: model#addvariantch-whenvalid-canaddmk#variants
+                      S: make#addvariantch-whenvalid-canaddmk#model#addvariantch-whenvalid-canadd#variants
                     CreateDate:
                       S: 2024-04-24T12:56:33.000Z
                     Name:
@@ -76,7 +76,7 @@ public class AddVariantCommandHandlerTests
         var handler = scope.ServiceProvider.GetRequiredService<AddVariantCommandHandler>();
         var variantTestHelper = scope.ServiceProvider.GetRequiredService<VariantTestHelper>();
 
-        var (makeId, modelId) = await variantTestHelper.AddModelWithMakeAsync(uniqueData + "mk");
+        var (makeId, modelId) = await variantTestHelper.AddModelWithMakeAsync(uniqueData);
         var result = await handler.ExecuteAsync(new()
         {
             MakeId = makeId,
@@ -86,7 +86,7 @@ public class AddVariantCommandHandlerTests
             FuelCategory = FuelCategory.Petrol
         });
 
-        var dbRecord = await variantTestHelper.GetRawRecordAsync(modelId, id);
+        var dbRecord = await variantTestHelper.GetRawRecordAsync(makeId, modelId, id);
 
         using (new AssertionScope())
         {
@@ -108,7 +108,7 @@ public class AddVariantCommandHandlerTests
                     EngineSizeInCC:
                       N: 4300
                     PK:
-                      S: model#addvariantch-canaddwithoptionalpropertiesmk#variants
+                      S: make#addvariantch-canaddwithoptionalpropertiesmk#model#addvariantch-canaddwithoptionalproperties#variants
                     CreateDate:
                       S: 2024-04-24T12:56:33.000Z
                     Name:

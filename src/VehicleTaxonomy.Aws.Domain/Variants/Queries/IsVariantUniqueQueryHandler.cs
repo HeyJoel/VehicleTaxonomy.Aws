@@ -1,4 +1,3 @@
-using VehicleTaxonomy.Aws.Domain.Shared.Validation;
 using VehicleTaxonomy.Aws.Infrastructure.Db;
 
 namespace VehicleTaxonomy.Aws.Domain.Variants;
@@ -27,8 +26,9 @@ public class IsVariantUniqueQueryHandler
         }
 
         var dbResult = await _vehicleTaxonomyRepository.GetByIdAsync(
-            VehicleTaxonomyEntityType.Variant,
+            VehicleTaxonomyEntity.Variant,
             variantId,
+            query.MakeId,
             query.ModelId,
             cancellationToken: cancellationToken
             );
@@ -63,9 +63,10 @@ public class IsVariantUniqueQueryHandler
 
         // Validate parent model exists
         var model = await _vehicleTaxonomyRepository.GetByIdAsync(
-            VehicleTaxonomyEntityType.Model,
+            VehicleTaxonomyEntity.Model,
             query.ModelId,
             query.MakeId,
+            null,
             cancellationToken
             );
         if (model == null)

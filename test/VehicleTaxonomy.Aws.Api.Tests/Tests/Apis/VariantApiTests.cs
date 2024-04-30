@@ -20,14 +20,6 @@ public class VariantApiTests
         _serviceDependentFixture = serviceDependentFixture;
     }
 
-    private static ServiceProvider BuildServiceProvider()
-    {
-        var services = new ServiceCollection();
-        var startup = new Startup();
-        startup.ConfigureServices(services);
-        return services.BuildServiceProvider();
-    }
-
     [Fact]
     public async Task ListVariants_CanQuery()
     {
@@ -100,7 +92,7 @@ public class VariantApiTests
             context
             );
 
-        var dbRecord = await repository.GetByIdAsync(VehicleTaxonomyEntityType.Variant, variantId, modelId);
+        var dbRecord = await repository.GetByIdAsync(VehicleTaxonomyEntity.Variant, variantId, makeId, modelId);
         var output = result.SerializeToText();
 
         Assert.NotNull(dbRecord);
@@ -125,8 +117,9 @@ public class VariantApiTests
         {
             Id = variantId,
             Name = name,
-            ParentId = modelId,
-            EntityType = VehicleTaxonomyEntityType.Variant
+            ParentMakeId = makeId,
+            ParentModelId = modelId,
+            EntityType = VehicleTaxonomyEntity.Variant
         });
 
         var context = new TestLambdaContext();
@@ -140,7 +133,7 @@ public class VariantApiTests
             context
             );
 
-        var dbRecord = await repository.GetByIdAsync(VehicleTaxonomyEntityType.Variant, variantId, null);
+        var dbRecord = await repository.GetByIdAsync(VehicleTaxonomyEntity.Variant, variantId, makeId, modelId);
         var output = result.SerializeToText();
 
         Assert.Null(dbRecord);

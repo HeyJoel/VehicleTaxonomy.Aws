@@ -1,4 +1,3 @@
-using VehicleTaxonomy.Aws.Domain.Shared.Validation;
 using VehicleTaxonomy.Aws.Infrastructure.Db;
 
 namespace VehicleTaxonomy.Aws.Domain.Variants;
@@ -35,9 +34,10 @@ public class AddVariantCommandHandler
         await _vehicleTaxonomyRepository.AddAsync(new()
         {
             CreateDate = now,
-            EntityType = VehicleTaxonomyEntityType.Variant,
+            EntityType = VehicleTaxonomyEntity.Variant,
             Id = id,
-            ParentId = command.ModelId,
+            ParentMakeId = command.MakeId,
+            ParentModelId = command.ModelId,
             Name = command.Name.Trim(),
             VariantData = new()
             {
@@ -78,9 +78,10 @@ public class AddVariantCommandHandler
 
         // Parent model exists
         var model = await _vehicleTaxonomyRepository.GetByIdAsync(
-            VehicleTaxonomyEntityType.Model,
+            VehicleTaxonomyEntity.Model,
             command.ModelId,
             command.MakeId,
+            null,
             cancellationToken
             );
         if (model == null)

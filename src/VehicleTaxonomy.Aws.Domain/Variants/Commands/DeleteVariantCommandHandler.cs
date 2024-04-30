@@ -26,8 +26,9 @@ public class DeleteVariantCommandHandler
         }
 
         var existing = await _vehicleTaxonomyRepository.GetByIdAsync(
-            VehicleTaxonomyEntityType.Variant,
+            VehicleTaxonomyEntity.Variant,
             command.VariantId,
+            command.MakeId,
             command.ModelId,
             cancellationToken
             );
@@ -38,8 +39,9 @@ public class DeleteVariantCommandHandler
         }
 
         await _vehicleTaxonomyRepository.DeleteByIdAsync(
-            VehicleTaxonomyEntityType.Variant,
+            VehicleTaxonomyEntity.Variant,
             command.VariantId,
+            command.MakeId,
             command.ModelId,
             cancellationToken
             );

@@ -22,6 +22,7 @@ public class VariantsApi
 
         var queryResponse = await listVariantsQueryHandler.ExecuteAsync(new()
         {
+            MakeId = makeId,
             ModelId = modelId
         });
 
@@ -83,6 +84,7 @@ public class VariantsApi
 
         var commandResponse = await deleteVariantCommandHandler.ExecuteAsync(new()
         {
+            MakeId = makeId,
             ModelId = modelId,
             VariantId = variantId
         });

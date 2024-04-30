@@ -8,9 +8,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="Amazon.Lambda.Core" Version="2.2.0" />
-		<PackageReference Include="FluentValidation" Version="11.9.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
-		<PackageReference Include="OneOf" Version="3.0.263" />
+		<PackageReference Include="FluentValidation" Version="11.9.1" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+		<PackageReference Include="Sep" Version="0.5.2" />
 	</ItemGroup>
 
 	<ItemGroup>

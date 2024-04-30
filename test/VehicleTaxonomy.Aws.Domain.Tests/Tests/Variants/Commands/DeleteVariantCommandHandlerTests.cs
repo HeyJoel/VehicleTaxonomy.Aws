@@ -31,11 +31,12 @@ public class DeleteVariantCommandHandlerTests
 
         var result = await handler.ExecuteAsync(new()
         {
+            MakeId = makeId,
             ModelId = modelId,
             VariantId = id
         });
 
-        var dbRecord = await variantTestHelper.GetRawRecordAsync(modelId, id);
+        var dbRecord = await variantTestHelper.GetRawRecordAsync(makeId, modelId, id);
 
         using (new AssertionScope())
         {
@@ -58,6 +59,7 @@ public class DeleteVariantCommandHandlerTests
 
         var result = await handler.ExecuteAsync(new()
         {
+            MakeId = "na",
             ModelId = modelId!,
             VariantId = "na"
         });
@@ -85,6 +87,7 @@ public class DeleteVariantCommandHandlerTests
 
         var result = await handler.ExecuteAsync(new()
         {
+            MakeId = "na",
             ModelId = "na",
             VariantId = id!
         });
@@ -108,6 +111,7 @@ public class DeleteVariantCommandHandlerTests
 
         var result = await handler.ExecuteAsync(new()
         {
+            MakeId = EntityIdFormatter.Format(uniqueData),
             ModelId = EntityIdFormatter.Format(uniqueData),
             VariantId = EntityIdFormatter.Format(uniqueData)
         });

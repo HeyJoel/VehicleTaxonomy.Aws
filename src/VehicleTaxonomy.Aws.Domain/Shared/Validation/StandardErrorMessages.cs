@@ -1,4 +1,4 @@
-namespace VehicleTaxonomy.Aws.Domain.Shared.Validation;
+namespace VehicleTaxonomy.Aws.Domain;
 
 /// <summary>
 /// Constants for simple reuse of similar error messages
@@ -7,6 +7,8 @@ namespace VehicleTaxonomy.Aws.Domain.Shared.Validation;
 public class StandardErrorMessages
 {
     public const string NameCouldNotBeFormattedAsAnId = "Name does not contain any characters that can be used to create an identifier (letters or numbers)";
+
+    public const string StringMaxLength = "The length of '{PropertyName}' must be {MaxLength} characters or fewer";
 
     public static string NameIsNotUnique(string entityName)
     {

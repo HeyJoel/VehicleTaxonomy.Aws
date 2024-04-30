@@ -20,14 +20,6 @@ public class MakeApiTests
         _serviceDependentFixture = serviceDependentFixture;
     }
 
-    private static ServiceProvider BuildServiceProvider()
-    {
-        var services = new ServiceCollection();
-        var startup = new Startup();
-        startup.ConfigureServices(services);
-        return services.BuildServiceProvider();
-    }
-
     [Fact]
     public async Task ListMakes_CanQuery()
     {
@@ -93,7 +85,7 @@ public class MakeApiTests
             context
             );
 
-        var dbRecord = await repository.GetByIdAsync(VehicleTaxonomyEntityType.Make, id, null);
+        var dbRecord = await repository.GetByIdAsync(VehicleTaxonomyEntity.Make, id, null, null);
         var output = result.SerializeToText();
 
         Assert.NotNull(dbRecord);
@@ -116,7 +108,7 @@ public class MakeApiTests
         {
             Id = id,
             Name = name,
-            EntityType = VehicleTaxonomyEntityType.Make
+            EntityType = VehicleTaxonomyEntity.Make
         });
 
         var context = new TestLambdaContext();
@@ -128,7 +120,7 @@ public class MakeApiTests
             context
             );
 
-        var dbRecord = await repository.GetByIdAsync(VehicleTaxonomyEntityType.Make, id, null);
+        var dbRecord = await repository.GetByIdAsync(VehicleTaxonomyEntity.Make, id, null, null);
         var output = result.SerializeToText();
 
         Assert.Null(dbRecord);

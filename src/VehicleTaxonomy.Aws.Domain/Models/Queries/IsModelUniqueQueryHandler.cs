@@ -1,4 +1,3 @@
-using VehicleTaxonomy.Aws.Domain.Shared.Validation;
 using VehicleTaxonomy.Aws.Infrastructure.Db;
 
 namespace VehicleTaxonomy.Aws.Domain.Models;
@@ -27,9 +26,10 @@ public class IsModelUniqueQueryHandler
         }
 
         var dbResult = await _vehicleTaxonomyRepository.GetByIdAsync(
-            VehicleTaxonomyEntityType.Model,
+            VehicleTaxonomyEntity.Model,
             modelId,
             query.MakeId,
+            null,
             cancellationToken: cancellationToken
             );
 
@@ -63,8 +63,9 @@ public class IsModelUniqueQueryHandler
 
         // Validate parent make exists
         var make = await _vehicleTaxonomyRepository.GetByIdAsync(
-            VehicleTaxonomyEntityType.Make,
+            VehicleTaxonomyEntity.Make,
             query.MakeId,
+            null,
             null,
             cancellationToken
             );

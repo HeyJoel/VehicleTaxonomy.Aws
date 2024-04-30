@@ -26,11 +26,11 @@ public class VariantTestHelper
     /// <summary>
     /// Returns the raw dynamo db record data for a vehicle variant.
     /// </summary>
-    public async Task<Dictionary<string, AttributeValue>?> GetRawRecordAsync(string modelId, string id)
+    public async Task<Dictionary<string, AttributeValue>?> GetRawRecordAsync(string makeId, string modelId, string id)
     {
         var key = new Dictionary<string, AttributeValue>()
         {
-            {  "PK", new($"model#{modelId}#variants") },
+            {  "PK", new($"make#{makeId}#model#{modelId}#variants") },
             {  "SK", new(id) }
         };
 

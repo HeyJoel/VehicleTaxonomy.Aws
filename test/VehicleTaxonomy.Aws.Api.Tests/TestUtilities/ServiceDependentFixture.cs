@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using VehicleTaxonomy.Aws.Infrastructure.Db;
 
 namespace VehicleTaxonomy.Aws.Api.Tests;
@@ -16,6 +18,9 @@ public class ServiceDependentFixture
         startup.ConfigureServices(services);
 
         services.AddScoped<IVehicleTaxonomyRepository>(s => GetSeededRepository());
+        services
+            .AddSingleton<ILoggerFactory, NullLoggerFactory>()
+            .AddSingleton(typeof(ILogger<>), typeof(NullLogger<>));
 
         return services.BuildServiceProvider();
     }
@@ -35,7 +40,7 @@ public class ServiceDependentFixture
             repository.AddAsync(new()
             {
                 CreateDate = now,
-                EntityType = VehicleTaxonomyEntityType.Make,
+                EntityType = VehicleTaxonomyEntity.Make,
                 Id = makeId,
                 Name = make
             });
@@ -48,10 +53,10 @@ public class ServiceDependentFixture
                 repository.AddAsync(new()
                 {
                     CreateDate = now,
-                    EntityType = VehicleTaxonomyEntityType.Model,
+                    EntityType = VehicleTaxonomyEntity.Model,
                     Id = modelId,
                     Name = modelName,
-                    ParentId = makeId
+                    ParentMakeId = makeId
                 });
 
                 foreach (var variant in variants)
@@ -60,10 +65,11 @@ public class ServiceDependentFixture
                     repository.AddAsync(new()
                     {
                         CreateDate = now,
-                        EntityType = VehicleTaxonomyEntityType.Variant,
+                        EntityType = VehicleTaxonomyEntity.Variant,
                         Id = EntityIdFormatter.Format(variantName),
                         Name = variantName,
-                        ParentId = modelId
+                        ParentMakeId = makeId,
+                        ParentModelId = modelId
                     });
                 }
             }

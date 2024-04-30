@@ -16,8 +16,9 @@ public class ListModelsQueryHandler
     public async Task<QueryResponse<IReadOnlyCollection<Model>>> ExecuteAsync(ListModelsQuery query, CancellationToken cancellationToken = default)
     {
         IEnumerable<VehicleTaxonomyDocument> dbResults = await _vehicleTaxonomyRepository.ListAsync(
-            VehicleTaxonomyEntityType.Model,
+            VehicleTaxonomyEntity.Model,
             query.MakeId,
+            null,
             cancellationToken: cancellationToken
             );
 

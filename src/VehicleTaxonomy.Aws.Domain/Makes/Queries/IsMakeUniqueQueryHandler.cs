@@ -1,4 +1,3 @@
-using VehicleTaxonomy.Aws.Domain.Shared.Validation;
 using VehicleTaxonomy.Aws.Infrastructure.Db;
 
 namespace VehicleTaxonomy.Aws.Domain.Makes;
@@ -37,8 +36,9 @@ public class IsMakeUniqueQueryHandler
         }
 
         var dbResult = await _vehicleTaxonomyRepository.GetByIdAsync(
-            VehicleTaxonomyEntityType.Make,
+            VehicleTaxonomyEntity.Make,
             makeId,
+            null,
             null,
             cancellationToken: cancellationToken
             );

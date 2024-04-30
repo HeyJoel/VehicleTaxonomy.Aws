@@ -4,6 +4,9 @@ using Amazon.DynamoDBv2.DocumentModel;
 
 namespace VehicleTaxonomy.Aws.Infrastructure.Db;
 
+/// <summary>
+/// DynamoDb implementation of <see cref="IVehicleTaxonomyRepository"/>.
+/// </summary>
 internal sealed class VehicleTaxonomyRepository : IVehicleTaxonomyRepository, IDisposable
 {
     private readonly DynamoDBContext _dynamoDBContext;
@@ -18,15 +21,17 @@ internal sealed class VehicleTaxonomyRepository : IVehicleTaxonomyRepository, ID
         });
     }
 
+    /// <inheritdoc/>
     public async Task<IReadOnlyCollection<VehicleTaxonomyDocument>> ListAsync(
-        VehicleTaxonomyEntityType entityType,
-        string? parentEntityId,
+        VehicleTaxonomyEntity entityType,
+        string? parentMakeId,
+        string? parentModelId,
         CancellationToken cancellationToken = default
         )
     {
         AsyncSearch<VehicleTaxonomy> asyncSearch;
 
-        if (entityType == VehicleTaxonomyEntityType.Make)
+        if (entityType == VehicleTaxonomyEntity.Make)
         {
             // The Makes GSI is a sparse index that only contains makes
             // so we can use scan to get all items
@@ -38,7 +43,7 @@ internal sealed class VehicleTaxonomyRepository : IVehicleTaxonomyRepository, ID
         }
         else
         {
-            var pk = BuildPartitionKey(entityType, "NA", parentEntityId);
+            var pk = BuildPartitionKey(entityType, "NA", parentMakeId, parentModelId);
             asyncSearch = _dynamoDBContext.QueryAsync<VehicleTaxonomy>(pk);
         }
 
@@ -47,19 +52,21 @@ internal sealed class VehicleTaxonomyRepository : IVehicleTaxonomyRepository, ID
 
         return result
             .Concat(additionalResults)
-            .Select(r => Map(entityType, r))
+            .Select(r => MapToDocument(entityType, r))
             .OrderBy(t => t.Name)
             .ToArray();
     }
 
+    /// <inheritdoc/>
     public async Task<VehicleTaxonomyDocument?> GetByIdAsync(
-        VehicleTaxonomyEntityType entityType,
+        VehicleTaxonomyEntity entityType,
         string id,
-        string? parentId,
+        string? parentMakeId,
+        string? parentModelId,
         CancellationToken cancellationToken = default
         )
     {
-        var pk = BuildPartitionKey(entityType, id, parentId);
+        var pk = BuildPartitionKey(entityType, id, parentMakeId, parentModelId);
         var result = await _dynamoDBContext.LoadAsync<VehicleTaxonomy>(pk, id, cancellationToken);
 
         if (result == null)
@@ -67,112 +74,154 @@ internal sealed class VehicleTaxonomyRepository : IVehicleTaxonomyRepository, ID
             return null;
         }
 
-        var mapped = Map(entityType, result);
+        var mapped = MapToDocument(entityType, result);
 
         return mapped;
     }
 
+    /// <inheritdoc/>
     public async Task AddAsync(
         VehicleTaxonomyDocument taxonomy,
         CancellationToken cancellationToken = default
         )
     {
-        var dbTaxonomy = new VehicleTaxonomy()
-        {
-            PK = BuildPartitionKey(taxonomy.EntityType, taxonomy.Id, taxonomy.ParentId),
-            SK = taxonomy.Id,
-            Name = taxonomy.Name,
-            MakeId = taxonomy.EntityType == VehicleTaxonomyEntityType.Make ? taxonomy.Id : null,
-            CreateDate = taxonomy.CreateDate
-        };
-
-        if (taxonomy.EntityType == VehicleTaxonomyEntityType.Variant && taxonomy.VariantData != null)
-        {
-            dbTaxonomy.EngineSizeInCC = taxonomy.VariantData.EngineSizeInCC;
-            dbTaxonomy.FuelCategory = taxonomy.VariantData.FuelCategory;
-        }
+        var dbTaxonomy = MapToDbTaxonomy(taxonomy);
 
         await _dynamoDBContext.SaveAsync(dbTaxonomy, cancellationToken);
     }
 
-    public async Task DeleteByIdAsync(
-        VehicleTaxonomyEntityType entityType,
-        string id,
-        string? parentId,
+    /// <inheritdoc/>
+    public async Task AddBatchAsync(
+        IEnumerable<VehicleTaxonomyDocument> taxonomies,
         CancellationToken cancellationToken = default
         )
     {
-        var pk = BuildPartitionKey(entityType, id, parentId);
+        var batchWrite = _dynamoDBContext.CreateBatchWrite<VehicleTaxonomy>();
+        var dbTaxonomies = taxonomies.Select(MapToDbTaxonomy);
+        batchWrite.AddPutItems(dbTaxonomies);
+        await _dynamoDBContext.ExecuteBatchWriteAsync([batchWrite], cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public async Task DeleteByIdAsync(
+        VehicleTaxonomyEntity entityType,
+        string id,
+        string? parentMakeId,
+        string? parentModelId,
+        CancellationToken cancellationToken = default
+        )
+    {
+        var pk = BuildPartitionKey(entityType, id, parentMakeId, parentModelId);
         await _dynamoDBContext.DeleteAsync<VehicleTaxonomy>(pk, id, cancellationToken);
     }
 
     private static string BuildPartitionKey(
-        VehicleTaxonomyEntityType entityType,
+        VehicleTaxonomyEntity entityType,
         string id,
-        string? parentId
+        string? parentMakeId,
+        string? parentModelId
         )
     {
         ArgumentException.ThrowIfNullOrEmpty(id);
-        if (entityType != VehicleTaxonomyEntityType.Make)
+        if (entityType != VehicleTaxonomyEntity.Make)
         {
-            ArgumentException.ThrowIfNullOrEmpty(parentId);
+            ArgumentException.ThrowIfNullOrEmpty(parentMakeId);
+        }
+        if (entityType == VehicleTaxonomyEntity.Variant)
+        {
+            ArgumentException.ThrowIfNullOrEmpty(parentModelId);
         }
 
         var key = entityType switch
         {
-            VehicleTaxonomyEntityType.Make => $"make#{id}",
-            VehicleTaxonomyEntityType.Model => $"make#{parentId}#models",
-            VehicleTaxonomyEntityType.Variant => $"model#{parentId}#variants",
-            _ => throw new NotImplementedException($"Unknown {nameof(VehicleTaxonomyEntityType)} value {entityType}")
+            VehicleTaxonomyEntity.Make => $"make#{id}",
+            VehicleTaxonomyEntity.Model => $"make#{parentMakeId}#models",
+            VehicleTaxonomyEntity.Variant => $"make#{parentMakeId}#model#{parentModelId}#variants",
+            _ => throw new NotImplementedException($"Unknown {nameof(VehicleTaxonomyEntity)} value {entityType}")
         };
 
         return key;
     }
 
-    private static VehicleTaxonomyDocument Map(
-        VehicleTaxonomyEntityType entityType,
+    private static VehicleTaxonomyDocument MapToDocument(
+        VehicleTaxonomyEntity entityType,
         VehicleTaxonomy dbVehicleTaxonomy
         )
     {
         var id = dbVehicleTaxonomy.SK;
-        string? parentId = null;
+        string? parentMakeId = null;
+        string? parentModelId = null;
 
-        if (entityType == VehicleTaxonomyEntityType.Make)
+        switch (entityType)
         {
-            // If data is from Makes GSI, the id is not included in the index
-            // this is because we can use the MakeId index key value instead
-            if (string.IsNullOrEmpty(id))
-            {
-                if (string.IsNullOrEmpty(dbVehicleTaxonomy.MakeId))
+            case VehicleTaxonomyEntity.Make:
+                // If data is from Makes GSI, the id is not included in the index
+                // because we can use the MakeId index key value instead
+                if (string.IsNullOrEmpty(id))
                 {
-                    throw new InvalidOperationException($"{nameof(dbVehicleTaxonomy.MakeId)} should not be empty for a make.");
+                    if (string.IsNullOrEmpty(dbVehicleTaxonomy.MakeId))
+                    {
+                        throw new InvalidOperationException($"{nameof(dbVehicleTaxonomy.MakeId)} should not be empty for a make.");
+                    }
+                    id = dbVehicleTaxonomy.MakeId;
                 }
-                id = dbVehicleTaxonomy.MakeId;
-            }
-        }
-        else
-        {
-            // Parse the PK to get the parent id
-            // e.g. make#volkswagen#models
-            // e.g. model#bmw-3-series#variants
-            var pkParts = dbVehicleTaxonomy.PK.Split('#');
-
-            if (pkParts.Length is not 3)
-            {
-                throw new InvalidOperationException($"Invalid number of partition key elements found in key {dbVehicleTaxonomy.PK}");
-            }
-
-            parentId = pkParts[1];
+                break;
+            case VehicleTaxonomyEntity.Model:
+                // e.g. make#volkswagen#models
+                var modelPkParts = GetPartitionKeyParts(3);
+                parentModelId = modelPkParts[1];
+                break;
+            case VehicleTaxonomyEntity.Variant:
+                // e.g. make#volkswagen#model#bmw-3-series#variants
+                var variantPkParts = GetPartitionKeyParts(5);
+                parentMakeId = variantPkParts[1];
+                parentModelId = variantPkParts[3];
+                break;
+            default:
+                throw new NotImplementedException($"Unknown taxonomy entity {entityType}.");
         }
 
         return new VehicleTaxonomyDocument()
         {
             EntityType = entityType,
             Id = id,
-            ParentId = parentId,
+            ParentMakeId = parentMakeId,
+            ParentModelId = parentModelId,
             Name = dbVehicleTaxonomy.Name,
             CreateDate = dbVehicleTaxonomy.CreateDate
         };
+
+        string[] GetPartitionKeyParts(int length)
+        {
+            var pkParts = dbVehicleTaxonomy.PK.Split('#');
+
+            if (pkParts.Length != length)
+            {
+                throw new InvalidOperationException($"Invalid number of partition key elements found in {entityType} key {dbVehicleTaxonomy.PK}");
+            }
+
+            return pkParts;
+        }
+    }
+
+    private static VehicleTaxonomy MapToDbTaxonomy(VehicleTaxonomyDocument taxonomy)
+    {
+        var dbTaxonomy = new VehicleTaxonomy()
+        {
+            PK = BuildPartitionKey(taxonomy.EntityType, taxonomy.Id, taxonomy.ParentMakeId, taxonomy.ParentModelId),
+            SK = taxonomy.Id,
+            Name = taxonomy.Name,
+            MakeId = taxonomy.EntityType == VehicleTaxonomyEntity.Make ? taxonomy.Id : null,
+            CreateDate = taxonomy.CreateDate
+        };
+
+        if (taxonomy.EntityType == VehicleTaxonomyEntity.Variant && taxonomy.VariantData != null)
+        {
+            dbTaxonomy.EngineSizeInCC = taxonomy.VariantData.EngineSizeInCC;
+            dbTaxonomy.FuelCategory = taxonomy.VariantData.FuelCategory;
+        }
+
+        return dbTaxonomy;
     }
 
     public void Dispose()

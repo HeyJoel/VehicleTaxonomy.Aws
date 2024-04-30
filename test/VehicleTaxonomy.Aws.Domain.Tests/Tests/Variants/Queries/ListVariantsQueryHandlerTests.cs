@@ -42,6 +42,7 @@ public class ListVariantsQueryHandlerTests
 
         var response = await handler.ExecuteAsync(new()
         {
+            MakeId = make1Id,
             ModelId = model1Id
         });
 

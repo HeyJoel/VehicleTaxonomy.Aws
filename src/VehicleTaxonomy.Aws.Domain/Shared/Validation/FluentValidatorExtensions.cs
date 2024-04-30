@@ -9,7 +9,7 @@ public static partial class FluentValidatorExtensions
     /// Validates that a string is a "slug" style identifier i.e.
     /// only contains lowercase letters (a-z), numbers or "-" dashes.
     /// </summary>
-    public static IRuleBuilderOptions<T, string> IsSlugId<T>(this IRuleBuilder<T, string> ruleBuilder, int? maxLength)
+    public static IRuleBuilderOptions<T, string> IsSlugId<T>(this IRuleBuilder<T, string> ruleBuilder, int? maxLength = null)
     {
         var builder = ruleBuilder
             .Must(s => string.IsNullOrWhiteSpace(s) || SlugIdRegex().IsMatch(s))
@@ -17,7 +17,7 @@ public static partial class FluentValidatorExtensions
 
         if (maxLength.HasValue)
         {
-            builder = builder.MaximumLength(maxLength.Value);
+            builder = builder.MaximumLength(maxLength.Value).WithMessage(StandardErrorMessages.StringMaxLength);
         }
 
         return builder;

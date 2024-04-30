@@ -26,8 +26,9 @@ public class DeleteMakeCommandHandler
         }
 
         var existing = await _vehicleTaxonomyRepository.GetByIdAsync(
-            VehicleTaxonomyEntityType.Make,
+            VehicleTaxonomyEntity.Make,
             command.MakeId,
+            null,
             null,
             cancellationToken
             );
@@ -38,8 +39,9 @@ public class DeleteMakeCommandHandler
         }
 
         await _vehicleTaxonomyRepository.DeleteByIdAsync(
-            VehicleTaxonomyEntityType.Make,
+            VehicleTaxonomyEntity.Make,
             command.MakeId,
+            null,
             null,
             cancellationToken
             );

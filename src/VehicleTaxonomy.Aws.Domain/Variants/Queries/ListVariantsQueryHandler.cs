@@ -1,4 +1,3 @@
-using VehicleTaxonomy.Aws.Infrastructure;
 using VehicleTaxonomy.Aws.Infrastructure.Db;
 
 namespace VehicleTaxonomy.Aws.Domain.Variants;
@@ -17,7 +16,8 @@ public class ListVariantsQueryHandler
     public async Task<QueryResponse<IReadOnlyCollection<Variant>>> ExecuteAsync(ListVariantsQuery query, CancellationToken cancellationToken = default)
     {
         IEnumerable<VehicleTaxonomyDocument> dbResults = await _vehicleTaxonomyRepository.ListAsync(
-            VehicleTaxonomyEntityType.Variant,
+            VehicleTaxonomyEntity.Variant,
+            query.MakeId,
             query.ModelId,
             cancellationToken: cancellationToken
             );

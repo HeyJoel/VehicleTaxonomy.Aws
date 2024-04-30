@@ -1,4 +1,3 @@
-using VehicleTaxonomy.Aws.Domain.Shared.Validation;
 using VehicleTaxonomy.Aws.Infrastructure.Db;
 
 namespace VehicleTaxonomy.Aws.Domain.Models;
@@ -35,9 +34,9 @@ public class AddModelCommandHandler
         await _vehicleTaxonomyRepository.AddAsync(new()
         {
             CreateDate = now,
-            EntityType = VehicleTaxonomyEntityType.Model,
+            EntityType = VehicleTaxonomyEntity.Model,
             Id = id,
-            ParentId = command.MakeId,
+            ParentMakeId = command.MakeId,
             Name = command.Name.Trim()
         }, cancellationToken);
 
@@ -73,8 +72,9 @@ public class AddModelCommandHandler
 
         // Parent make exists
         var make = await _vehicleTaxonomyRepository.GetByIdAsync(
-            VehicleTaxonomyEntityType.Make,
+            VehicleTaxonomyEntity.Make,
             command.MakeId,
+            null,
             null,
             cancellationToken
             );

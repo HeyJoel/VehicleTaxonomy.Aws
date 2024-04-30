@@ -2,6 +2,7 @@ using Amazon.DynamoDBv2;
 using Amazon.Runtime;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using VehicleTaxonomy.Aws.Infrastructure.DataImport;
 using VehicleTaxonomy.Aws.Infrastructure.Db;
 
 namespace VehicleTaxonomy.Aws.Infrastructure;
@@ -35,7 +36,8 @@ public static class DependencyRegistration
 
         services
             .AddTransient<IVehicleTaxonomyRepository, VehicleTaxonomyRepository>()
-            .AddTransient<DynamoDbTableInitializer>();
+            .AddTransient<DynamoDbTableInitializer>()
+            .AddTransient<CsvDataImportJobRunner>();
 
         return services;
     }

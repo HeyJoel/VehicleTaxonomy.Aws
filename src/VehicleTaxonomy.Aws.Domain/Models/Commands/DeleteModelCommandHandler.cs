@@ -26,9 +26,10 @@ public class DeleteModelCommandHandler
         }
 
         var existing = await _vehicleTaxonomyRepository.GetByIdAsync(
-            VehicleTaxonomyEntityType.Model,
+            VehicleTaxonomyEntity.Model,
             command.ModelId,
             command.MakeId,
+            null,
             cancellationToken
             );
 
@@ -38,9 +39,10 @@ public class DeleteModelCommandHandler
         }
 
         await _vehicleTaxonomyRepository.DeleteByIdAsync(
-            VehicleTaxonomyEntityType.Model,
+            VehicleTaxonomyEntity.Model,
             command.ModelId,
             command.MakeId,
+            null,
             cancellationToken
             );
 

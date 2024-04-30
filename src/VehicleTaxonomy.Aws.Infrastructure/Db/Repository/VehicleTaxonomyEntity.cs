@@ -1,6 +1,6 @@
 namespace VehicleTaxonomy.Aws.Infrastructure.Db;
 
-public enum VehicleTaxonomyEntityType
+public enum VehicleTaxonomyEntity
 {
     Make,
     Model,

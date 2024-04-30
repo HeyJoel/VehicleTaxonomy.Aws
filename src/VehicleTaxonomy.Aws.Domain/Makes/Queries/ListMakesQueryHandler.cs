@@ -16,7 +16,8 @@ public class ListMakesQueryHandler
     public async Task<QueryResponse<IReadOnlyCollection<Make>>> ExecuteAsync(ListMakesQuery? query, CancellationToken cancellationToken = default)
     {
         IEnumerable<VehicleTaxonomyDocument> dbResults = await _vehicleTaxonomyRepository.ListAsync(
-            VehicleTaxonomyEntityType.Make,
+            VehicleTaxonomyEntity.Make,
+            null,
             null,
             cancellationToken: cancellationToken
             );

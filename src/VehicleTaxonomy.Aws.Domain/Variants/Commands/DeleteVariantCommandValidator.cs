@@ -7,6 +7,7 @@ public class DeleteVariantCommandValidator : AbstractValidator<DeleteVariantComm
 {
     public DeleteVariantCommandValidator()
     {
+        RuleFor(c => c.MakeId).NotEmpty().IsSlugId(VehicleTaxonomyTableDefinition.MakeNameMaxLength);
         RuleFor(c => c.ModelId).NotEmpty().IsSlugId(VehicleTaxonomyTableDefinition.ModelNameMaxLength);
         RuleFor(c => c.VariantId).NotEmpty().IsSlugId(VehicleTaxonomyTableDefinition.VariantNameMaxLength);
     }

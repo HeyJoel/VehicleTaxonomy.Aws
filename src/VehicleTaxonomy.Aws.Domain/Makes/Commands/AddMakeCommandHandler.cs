@@ -1,4 +1,3 @@
-using VehicleTaxonomy.Aws.Domain.Shared.Validation;
 using VehicleTaxonomy.Aws.Infrastructure.Db;
 
 namespace VehicleTaxonomy.Aws.Domain.Makes;
@@ -35,7 +34,7 @@ public class AddMakeCommandHandler
         await _vehicleTaxonomyRepository.AddAsync(new()
         {
             CreateDate = now,
-            EntityType = VehicleTaxonomyEntityType.Make,
+            EntityType = VehicleTaxonomyEntity.Make,
             Id = id,
             Name = command.Name.Trim()
         }, cancellationToken);

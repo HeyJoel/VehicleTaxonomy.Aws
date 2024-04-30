@@ -20,14 +20,6 @@ public class ModelApiTests
         _serviceDependentFixture = serviceDependentFixture;
     }
 
-    private static ServiceProvider BuildServiceProvider()
-    {
-        var services = new ServiceCollection();
-        var startup = new Startup();
-        startup.ConfigureServices(services);
-        return services.BuildServiceProvider();
-    }
-
     [Fact]
     public async Task ListModels_CanQuery()
     {
@@ -96,7 +88,7 @@ public class ModelApiTests
             context
             );
 
-        var dbRecord = await repository.GetByIdAsync(VehicleTaxonomyEntityType.Model, modelId, makeId);
+        var dbRecord = await repository.GetByIdAsync(VehicleTaxonomyEntity.Model, modelId, makeId, null);
         var output = result.SerializeToText();
 
         Assert.NotNull(dbRecord);
@@ -120,8 +112,8 @@ public class ModelApiTests
         {
             Id = modelId,
             Name = name,
-            ParentId = "audi",
-            EntityType = VehicleTaxonomyEntityType.Model
+            ParentMakeId = "audi",
+            EntityType = VehicleTaxonomyEntity.Model
         });
 
         var context = new TestLambdaContext();
@@ -134,7 +126,7 @@ public class ModelApiTests
             context
             );
 
-        var dbRecord = await repository.GetByIdAsync(VehicleTaxonomyEntityType.Model, modelId, null);
+        var dbRecord = await repository.GetByIdAsync(VehicleTaxonomyEntity.Model, modelId, null, null);
         var output = result.SerializeToText();
 
         Assert.Null(dbRecord);

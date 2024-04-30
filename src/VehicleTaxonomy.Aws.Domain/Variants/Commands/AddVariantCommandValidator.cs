@@ -10,5 +10,6 @@ public class AddVariantCommandValidator : AbstractValidator<AddVariantCommand>
         RuleFor(c => c.MakeId).NotEmpty().IsSlugId(VehicleTaxonomyTableDefinition.MakeNameMaxLength);
         RuleFor(c => c.ModelId).NotEmpty().IsSlugId(VehicleTaxonomyTableDefinition.ModelNameMaxLength);
         RuleFor(c => c.Name).NotEmpty().MaximumLength(VehicleTaxonomyTableDefinition.VariantNameMaxLength);
+        RuleFor(c => c.EngineSizeInCC).LessThan(50000);
     }
 }

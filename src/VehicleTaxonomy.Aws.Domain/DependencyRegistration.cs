@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using VehicleTaxonomy.Aws.Domain.DataImport;
 using VehicleTaxonomy.Aws.Domain.Makes;
 using VehicleTaxonomy.Aws.Domain.Models;
 using VehicleTaxonomy.Aws.Domain.Variants;
-using VehicleTaxonomy.Aws.Infrastructure;
 
 namespace VehicleTaxonomy.Aws.Domain;
 
@@ -25,6 +25,8 @@ public static class DependencyRegistration
             .AddTransient<IsVariantUniqueQueryHandler>()
             .AddTransient<AddVariantCommandHandler>()
             .AddTransient<DeleteVariantCommandHandler>()
+            .AddTransient<ImportTaxonomyFromCsvCommandHandler>()
+            .AddTransient<TaxonomyFromCsvImportJob>()
             ;
 
         return services;

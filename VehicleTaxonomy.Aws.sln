@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleTaxonomy.Aws.Domain.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackEnd", "BackEnd", "{58979BAD-3960-44A9-AFF5-3FC83D3D6E2A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleTaxonomy.Aws.Infrastructure.Tests", "test\VehicleTaxonomy.Aws.Infrastructure.Tests\VehicleTaxonomy.Aws.Infrastructure.Tests.csproj", "{C50D1C9B-FF15-4209-BEB1-8926EF8B7E68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{C7C99BE8-11A2-47F0-914F-7D48FA43A224}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7C99BE8-11A2-47F0-914F-7D48FA43A224}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7C99BE8-11A2-47F0-914F-7D48FA43A224}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C50D1C9B-FF15-4209-BEB1-8926EF8B7E68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C50D1C9B-FF15-4209-BEB1-8926EF8B7E68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C50D1C9B-FF15-4209-BEB1-8926EF8B7E68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C50D1C9B-FF15-4209-BEB1-8926EF8B7E68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{77A1BD69-7D39-4471-87F1-3857487D82A4} = {6CD9761F-0FD9-431D-9A4E-5D9A67110DE6}
 		{EAEC41D0-C8B6-4C2B-B9F2-88464CBB9FE3} = {6CD9761F-0FD9-431D-9A4E-5D9A67110DE6}
 		{C7C99BE8-11A2-47F0-914F-7D48FA43A224} = {58979BAD-3960-44A9-AFF5-3FC83D3D6E2A}
+		{C50D1C9B-FF15-4209-BEB1-8926EF8B7E68} = {58979BAD-3960-44A9-AFF5-3FC83D3D6E2A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8B3B44EC-C1B7-4B87-8473-917171E62C0C}

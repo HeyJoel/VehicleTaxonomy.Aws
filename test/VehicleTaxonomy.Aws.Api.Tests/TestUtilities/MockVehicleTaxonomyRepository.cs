@@ -6,37 +6,72 @@ public class MockVehicleTaxonomyRepository : IVehicleTaxonomyRepository
 {
     private readonly List<VehicleTaxonomyDocument> _db = [];
 
-    public Task AddAsync(VehicleTaxonomyDocument taxonomy, CancellationToken cancellationToken = default)
+    public Task AddAsync(
+        VehicleTaxonomyDocument taxonomy,
+        CancellationToken cancellationToken = default
+        )
     {
         _db.Add(taxonomy);
 
         return Task.CompletedTask;
     }
 
-    public async Task DeleteByIdAsync(VehicleTaxonomyEntityType entityType, string id, string? parentId, CancellationToken cancellationToken = default)
+    public async Task AddBatchAsync(
+        IEnumerable<VehicleTaxonomyDocument> taxonomies,
+        CancellationToken cancellationToken = default
+        )
     {
-        var item = await GetByIdAsync(entityType, id, parentId, cancellationToken);
+        foreach (var taxonomy in taxonomies)
+        {
+            await AddAsync(taxonomy, cancellationToken);
+        }
+    }
+
+    public async Task DeleteByIdAsync(
+        VehicleTaxonomyEntity entityType,
+        string entityId,
+        string? parentMakeId,
+        string? parentModelId,
+        CancellationToken cancellationToken = default)
+    {
+        var item = await GetByIdAsync(entityType, entityId, parentMakeId, parentModelId, cancellationToken);
         if (item != null)
         {
             _db.Remove(item);
         }
     }
 
-    public Task<VehicleTaxonomyDocument?> GetByIdAsync(VehicleTaxonomyEntityType entityType, string id, string? parentId, CancellationToken cancellationToken = default)
+    public Task<VehicleTaxonomyDocument?> GetByIdAsync(
+        VehicleTaxonomyEntity entityType,
+        string entityId,
+        string? parentMakeId,
+        string? parentModelId,
+        CancellationToken cancellationToken = default
+        )
     {
         var item = _db.SingleOrDefault(d =>
             d.EntityType == entityType
-            && d.Id == id
-            && d.ParentId == parentId
+            && d.Id == entityId
+            && d.ParentMakeId == parentMakeId
+            && d.ParentModelId == parentModelId
             );
 
         return Task.FromResult(item);
     }
 
-    public Task<IReadOnlyCollection<VehicleTaxonomyDocument>> ListAsync(VehicleTaxonomyEntityType entityType, string? parentEntityId, CancellationToken cancellationToken = default)
+    public Task<IReadOnlyCollection<VehicleTaxonomyDocument>> ListAsync(
+        VehicleTaxonomyEntity entityType,
+        string? parentMakeId,
+        string? parentModelId,
+        CancellationToken cancellationToken = default
+        )
     {
         var results = _db
-            .Where(d => d.EntityType == entityType && d.ParentId == parentEntityId)
+            .Where(d =>
+                d.EntityType == entityType
+                && d.ParentMakeId == parentMakeId
+                && d.ParentModelId == parentModelId
+                )
             .OrderBy(d => d.Name)
             .ToArray();
 
