@@ -9,7 +9,11 @@ public class MakesApi
 {
     const string ROUTE_PREFIX = "/makes";
 
-    [LambdaFunction]
+    [LambdaFunction(
+        Policies = LambdaDefaultConfig.Policies,
+        ResourceName = "MakesApiList",
+        MemorySize = 128
+        )]
     [RestApi(LambdaHttpMethod.Get, ROUTE_PREFIX)]
     public async Task<IHttpResult> ListMakesHandler(
         [FromServices] ListMakesQueryHandler listMakesQueryHandler,
@@ -27,7 +31,11 @@ public class MakesApi
         return ApiResponseHelper.ToHttpResult(queryResponse);
     }
 
-    [LambdaFunction]
+    [LambdaFunction(
+        Policies = LambdaDefaultConfig.Policies,
+        ResourceName = "MakesApiIsUnique",
+        MemorySize = 128
+        )]
     [RestApi(LambdaHttpMethod.Get, ROUTE_PREFIX + "/is-unique")]
     public async Task<IHttpResult> IsMakeUniqueHandler(
         [FromServices] IsMakeUniqueQueryHandler isMakeUniqueQueryHandler,
@@ -45,7 +53,11 @@ public class MakesApi
         return ApiResponseHelper.ToHttpResult(queryResponse);
     }
 
-    [LambdaFunction]
+    [LambdaFunction(
+        Policies = LambdaDefaultConfig.Policies,
+        ResourceName = "MakesApiAdd",
+        MemorySize = 128
+        )]
     [RestApi(LambdaHttpMethod.Post, ROUTE_PREFIX)]
     public async Task<IHttpResult> AddMakeHandler(
         [FromServices] AddMakeCommandHandler addMakeCommandHandler,
@@ -60,7 +72,11 @@ public class MakesApi
         return ApiResponseHelper.ToHttpResult(commandResponse);
     }
 
-    [LambdaFunction]
+    [LambdaFunction(
+        Policies = LambdaDefaultConfig.Policies,
+        ResourceName = "MakesApiDeleteById",
+        MemorySize = 128
+        )]
     [RestApi(LambdaHttpMethod.Delete, ROUTE_PREFIX + "/{makeId}")]
     public async Task<IHttpResult> DeleteMakeHandler(
         [FromServices] DeleteMakeCommandHandler deleteMakeCommandHandler,

@@ -9,7 +9,11 @@ public class ModelsApi
 {
     const string ROUTE_PREFIX = "/makes/{makeId}/models";
 
-    [LambdaFunction]
+    [LambdaFunction(
+        Policies = LambdaDefaultConfig.Policies,
+        ResourceName = "ModelsApiList",
+        MemorySize = 128
+        )]
     [RestApi(LambdaHttpMethod.Get, ROUTE_PREFIX)]
     public async Task<IHttpResult> ListModelsHandler(
         [FromServices] ListModelsQueryHandler listModelsQueryHandler,
@@ -27,7 +31,11 @@ public class ModelsApi
         return ApiResponseHelper.ToHttpResult(queryResponse);
     }
 
-    [LambdaFunction]
+    [LambdaFunction(
+        Policies = LambdaDefaultConfig.Policies,
+        ResourceName = "ModelsApiIsUnique",
+        MemorySize = 128
+        )]
     [RestApi(LambdaHttpMethod.Get, ROUTE_PREFIX + "/is-unique")]
     public async Task<IHttpResult> IsModelUniqueHandler(
         [FromServices] IsModelUniqueQueryHandler isModelUniqueQueryHandler,
@@ -47,7 +55,11 @@ public class ModelsApi
         return ApiResponseHelper.ToHttpResult(queryResponse);
     }
 
-    [LambdaFunction]
+    [LambdaFunction(
+        Policies = LambdaDefaultConfig.Policies,
+        ResourceName = "ModelsApiAdd",
+        MemorySize = 128
+        )]
     [RestApi(LambdaHttpMethod.Post, ROUTE_PREFIX)]
     public async Task<IHttpResult> AddModelHandler(
         [FromServices] AddModelCommandHandler addModelCommandHandler,
@@ -64,7 +76,11 @@ public class ModelsApi
         return ApiResponseHelper.ToHttpResult(commandResponse);
     }
 
-    [LambdaFunction]
+    [LambdaFunction(
+        Policies = LambdaDefaultConfig.Policies,
+        ResourceName = "ModelsApiDeleteById",
+        MemorySize = 128
+        )]
     [RestApi(LambdaHttpMethod.Delete, ROUTE_PREFIX + "/{modelId}")]
     public async Task<IHttpResult> DeleteModelHandler(
         [FromServices] DeleteModelCommandHandler deleteModelCommandHandler,

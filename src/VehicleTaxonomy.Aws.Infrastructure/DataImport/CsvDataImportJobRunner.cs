@@ -126,6 +126,7 @@ public class CsvDataImportJobRunner
             if (validateOnly)
             {
                 _logger.LogTrace("Bypassing import batch {BatchNum} (validate mode)", batchCount);
+                resultBuilder.MarkBatchSuccessful(batch.Length);
                 continue;
             }
 

@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace VehicleTaxonomy.Aws.Domain.Variants;
 
 public class AddVariantCommand
@@ -26,6 +28,7 @@ public class AddVariantCommand
     /// The type of fuel the vehicle uses e.g. <see cref="FuelCategory.Petrol"/>,
     /// <see cref="FuelCategory.ElectricHybridDiesel"/> or <see cref="FuelCategory.Other"/>.
     /// </summary>
+    [JsonConverter(typeof(JsonStringEnumConverter<FuelCategory>))]
     public FuelCategory? FuelCategory { get; set; }
 
     /// <summary>

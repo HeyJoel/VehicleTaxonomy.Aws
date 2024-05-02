@@ -84,6 +84,10 @@ public class ImportTaxonomyFromCsvCommandHandlerTests
             .Validate(dbVariant, """
                 SK:
                   S: 124-gt-multiair-1-4l-petrol
+                FuelCategory:
+                  S: Petrol
+                EngineSizeInCC:
+                  N: 1400
                 PK:
                   S: make#imptaxcsvch-valsrow#model#abarth-124#variants
                 CreateDate:
@@ -149,6 +153,7 @@ public class ImportTaxonomyFromCsvCommandHandlerTests
             dbMake.Should().BeNull();
             response.IsValid.Should().BeTrue();
             InlineSnapshot.Validate(response.Result, """
+                NumSuccess: 1
                 Status: Finished
                 SkippedReasons: {}
                 ValidationErrors: {}

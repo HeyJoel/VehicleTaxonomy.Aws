@@ -86,13 +86,13 @@ public class TaxonomyFromCsvImportJob : ICsvDataImportJob<TaxonomyCsvRow>
     public async Task SaveAsync(IEnumerable<TaxonomyCsvRow> batch, CancellationToken cancellationToken)
     {
         var makes = batch
-            .GroupBy(r => r.MakeId)
+            .GroupBy(r => r.MakeId, (k, v) => v.First())
             .Select(g => new VehicleTaxonomyDocument()
             {
                 CreateDate = _timeProvider.GetUtcNow().DateTime,
                 EntityType = VehicleTaxonomyEntity.Make,
-                Id = g.Key,
-                Name = g.First().MakeName.Trim()
+                Id = g.MakeId,
+                Name = g.MakeName.Trim()
             });
 
         var models = batch
@@ -102,14 +102,14 @@ public class TaxonomyFromCsvImportJob : ICsvDataImportJob<TaxonomyCsvRow>
                 r.MakeId,
                 r.ModelId
             })
-            .GroupBy(r => $"{r.MakeId}:{r.ModelId}")
+            .GroupBy(r => $"{r.MakeId}:{r.ModelId}", (k, v) => v.First())
             .Select(g => new VehicleTaxonomyDocument()
             {
                 CreateDate = _timeProvider.GetUtcNow().DateTime,
                 EntityType = VehicleTaxonomyEntity.Model,
-                Id = g.First().ModelId,
-                ParentMakeId = g.First().MakeId,
-                Name = g.First().Row.ModelName.Trim()
+                Id = g.ModelId,
+                ParentMakeId = g.MakeId,
+                Name = g.Row.ModelName.Trim()
             });
 
         var variants = batch
@@ -120,15 +120,20 @@ public class TaxonomyFromCsvImportJob : ICsvDataImportJob<TaxonomyCsvRow>
                 r.ModelId,
                 r.VariantId
             })
-            .GroupBy(r => $"{r.MakeId}:{r.ModelId}:{r.VariantId}")
+            .GroupBy(r => $"{r.MakeId}:{r.ModelId}:{r.VariantId}", (k, v) => v.First())
             .Select(g => new VehicleTaxonomyDocument()
             {
                 CreateDate = _timeProvider.GetUtcNow().DateTime,
                 EntityType = VehicleTaxonomyEntity.Variant,
-                Id = g.First().VariantId,
-                ParentMakeId = g.First().MakeId,
-                ParentModelId = g.First().ModelId,
-                Name = g.First().Row.VariantName
+                Id = g.VariantId,
+                ParentMakeId = g.MakeId,
+                ParentModelId = g.ModelId,
+                Name = g.Row.VariantName,
+                VariantData = new()
+                {
+                    EngineSizeInCC = g.Row.EngineSizeInCC,
+                    FuelCategory = g.Row.FuelCategory?.ToString()
+                }
             });
 
         var documentBatch = makes

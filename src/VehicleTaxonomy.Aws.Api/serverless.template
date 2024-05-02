@@ -3,7 +3,7 @@
   "Transform": "AWS::Serverless-2016-10-31",
   "Description": "An AWS Serverless Application. This template is partially managed by Amazon.Lambda.Annotations (v1.3.1.0).",
   "Resources": {
-    "VehicleTaxonomyAwsApiMakesApiListMakesHandlerGenerated": {
+    "MakesApiList": {
       "Type": "AWS::Serverless::Function",
       "Metadata": {
         "Tool": "Amazon.Lambda.Annotations",
@@ -14,10 +14,11 @@
       "Properties": {
         "Runtime": "dotnet8",
         "CodeUri": ".",
-        "MemorySize": 512,
+        "MemorySize": 128,
         "Timeout": 30,
         "Policies": [
-          "AWSLambdaBasicExecutionRole"
+          "AWSLambdaBasicExecutionRole",
+          "AmazonDynamoDBFullAccess"
         ],
         "PackageType": "Zip",
         "Handler": "VehicleTaxonomy.Aws.Api",
@@ -37,7 +38,7 @@
         }
       }
     },
-    "VehicleTaxonomyAwsApiMakesApiIsMakeUniqueHandlerGenerated": {
+    "MakesApiIsUnique": {
       "Type": "AWS::Serverless::Function",
       "Metadata": {
         "Tool": "Amazon.Lambda.Annotations",
@@ -48,10 +49,11 @@
       "Properties": {
         "Runtime": "dotnet8",
         "CodeUri": ".",
-        "MemorySize": 512,
+        "MemorySize": 128,
         "Timeout": 30,
         "Policies": [
-          "AWSLambdaBasicExecutionRole"
+          "AWSLambdaBasicExecutionRole",
+          "AmazonDynamoDBFullAccess"
         ],
         "PackageType": "Zip",
         "Handler": "VehicleTaxonomy.Aws.Api",
@@ -71,7 +73,7 @@
         }
       }
     },
-    "VehicleTaxonomyAwsApiMakesApiAddMakeHandlerGenerated": {
+    "MakesApiAdd": {
       "Type": "AWS::Serverless::Function",
       "Metadata": {
         "Tool": "Amazon.Lambda.Annotations",
@@ -82,10 +84,11 @@
       "Properties": {
         "Runtime": "dotnet8",
         "CodeUri": ".",
-        "MemorySize": 512,
+        "MemorySize": 128,
         "Timeout": 30,
         "Policies": [
-          "AWSLambdaBasicExecutionRole"
+          "AWSLambdaBasicExecutionRole",
+          "AmazonDynamoDBFullAccess"
         ],
         "PackageType": "Zip",
         "Handler": "VehicleTaxonomy.Aws.Api",
@@ -105,7 +108,7 @@
         }
       }
     },
-    "VehicleTaxonomyAwsApiMakesApiDeleteMakeHandlerGenerated": {
+    "MakesApiDeleteById": {
       "Type": "AWS::Serverless::Function",
       "Metadata": {
         "Tool": "Amazon.Lambda.Annotations",
@@ -116,10 +119,11 @@
       "Properties": {
         "Runtime": "dotnet8",
         "CodeUri": ".",
-        "MemorySize": 512,
+        "MemorySize": 128,
         "Timeout": 30,
         "Policies": [
-          "AWSLambdaBasicExecutionRole"
+          "AWSLambdaBasicExecutionRole",
+          "AmazonDynamoDBFullAccess"
         ],
         "PackageType": "Zip",
         "Handler": "VehicleTaxonomy.Aws.Api",
@@ -139,75 +143,7 @@
         }
       }
     },
-    "VehicleTaxonomyAwsApiModelsApiListModelsHandlerGenerated": {
-      "Type": "AWS::Serverless::Function",
-      "Metadata": {
-        "Tool": "Amazon.Lambda.Annotations",
-        "SyncedEvents": [
-          "RootGet"
-        ]
-      },
-      "Properties": {
-        "Runtime": "dotnet8",
-        "CodeUri": ".",
-        "MemorySize": 512,
-        "Timeout": 30,
-        "Policies": [
-          "AWSLambdaBasicExecutionRole"
-        ],
-        "PackageType": "Zip",
-        "Handler": "VehicleTaxonomy.Aws.Api",
-        "Environment": {
-          "Variables": {
-            "ANNOTATIONS_HANDLER": "ListModelsHandler"
-          }
-        },
-        "Events": {
-          "RootGet": {
-            "Type": "Api",
-            "Properties": {
-              "Path": "/makes/{makeId}/models",
-              "Method": "GET"
-            }
-          }
-        }
-      }
-    },
-    "VehicleTaxonomyAwsApiModelsApiIsModelUniqueHandlerGenerated": {
-      "Type": "AWS::Serverless::Function",
-      "Metadata": {
-        "Tool": "Amazon.Lambda.Annotations",
-        "SyncedEvents": [
-          "RootGet"
-        ]
-      },
-      "Properties": {
-        "Runtime": "dotnet8",
-        "CodeUri": ".",
-        "MemorySize": 512,
-        "Timeout": 30,
-        "Policies": [
-          "AWSLambdaBasicExecutionRole"
-        ],
-        "PackageType": "Zip",
-        "Handler": "VehicleTaxonomy.Aws.Api",
-        "Environment": {
-          "Variables": {
-            "ANNOTATIONS_HANDLER": "IsModelUniqueHandler"
-          }
-        },
-        "Events": {
-          "RootGet": {
-            "Type": "Api",
-            "Properties": {
-              "Path": "/makes/{makeId}/models/is-unique",
-              "Method": "GET"
-            }
-          }
-        }
-      }
-    },
-    "VehicleTaxonomyAwsApiModelsApiDeleteModelHandlerGenerated": {
+    "ModelsApiDeleteById": {
       "Type": "AWS::Serverless::Function",
       "Metadata": {
         "Tool": "Amazon.Lambda.Annotations",
@@ -218,10 +154,11 @@
       "Properties": {
         "Runtime": "dotnet8",
         "CodeUri": ".",
-        "MemorySize": 512,
+        "MemorySize": 128,
         "Timeout": 30,
         "Policies": [
-          "AWSLambdaBasicExecutionRole"
+          "AWSLambdaBasicExecutionRole",
+          "AmazonDynamoDBFullAccess"
         ],
         "PackageType": "Zip",
         "Handler": "VehicleTaxonomy.Aws.Api",
@@ -241,7 +178,7 @@
         }
       }
     },
-    "VehicleTaxonomyAwsApiModelsApiAddModelHandlerGenerated": {
+    "ModelsApiAdd": {
       "Type": "AWS::Serverless::Function",
       "Metadata": {
         "Tool": "Amazon.Lambda.Annotations",
@@ -252,10 +189,11 @@
       "Properties": {
         "Runtime": "dotnet8",
         "CodeUri": ".",
-        "MemorySize": 512,
+        "MemorySize": 128,
         "Timeout": 30,
         "Policies": [
-          "AWSLambdaBasicExecutionRole"
+          "AWSLambdaBasicExecutionRole",
+          "AmazonDynamoDBFullAccess"
         ],
         "PackageType": "Zip",
         "Handler": "VehicleTaxonomy.Aws.Api",
@@ -275,7 +213,7 @@
         }
       }
     },
-    "VehicleTaxonomyAwsApiVariantsApiListVariantsHandlerGenerated": {
+    "ModelsApiList": {
       "Type": "AWS::Serverless::Function",
       "Metadata": {
         "Tool": "Amazon.Lambda.Annotations",
@@ -286,10 +224,81 @@
       "Properties": {
         "Runtime": "dotnet8",
         "CodeUri": ".",
-        "MemorySize": 512,
+        "MemorySize": 128,
         "Timeout": 30,
         "Policies": [
-          "AWSLambdaBasicExecutionRole"
+          "AWSLambdaBasicExecutionRole",
+          "AmazonDynamoDBFullAccess"
+        ],
+        "PackageType": "Zip",
+        "Handler": "VehicleTaxonomy.Aws.Api",
+        "Environment": {
+          "Variables": {
+            "ANNOTATIONS_HANDLER": "ListModelsHandler"
+          }
+        },
+        "Events": {
+          "RootGet": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/makes/{makeId}/models",
+              "Method": "GET"
+            }
+          }
+        }
+      }
+    },
+    "ModelsApiIsUnique": {
+      "Type": "AWS::Serverless::Function",
+      "Metadata": {
+        "Tool": "Amazon.Lambda.Annotations",
+        "SyncedEvents": [
+          "RootGet"
+        ]
+      },
+      "Properties": {
+        "Runtime": "dotnet8",
+        "CodeUri": ".",
+        "MemorySize": 128,
+        "Timeout": 30,
+        "Policies": [
+          "AWSLambdaBasicExecutionRole",
+          "AmazonDynamoDBFullAccess"
+        ],
+        "PackageType": "Zip",
+        "Handler": "VehicleTaxonomy.Aws.Api",
+        "Environment": {
+          "Variables": {
+            "ANNOTATIONS_HANDLER": "IsModelUniqueHandler"
+          }
+        },
+        "Events": {
+          "RootGet": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/makes/{makeId}/models/is-unique",
+              "Method": "GET"
+            }
+          }
+        }
+      }
+    },
+    "VariantsApiList": {
+      "Type": "AWS::Serverless::Function",
+      "Metadata": {
+        "Tool": "Amazon.Lambda.Annotations",
+        "SyncedEvents": [
+          "RootGet"
+        ]
+      },
+      "Properties": {
+        "Runtime": "dotnet8",
+        "CodeUri": ".",
+        "MemorySize": 128,
+        "Timeout": 30,
+        "Policies": [
+          "AWSLambdaBasicExecutionRole",
+          "AmazonDynamoDBFullAccess"
         ],
         "PackageType": "Zip",
         "Handler": "VehicleTaxonomy.Aws.Api",
@@ -309,7 +318,7 @@
         }
       }
     },
-    "VehicleTaxonomyAwsApiVariantsApiIsVariantUniqueHandlerGenerated": {
+    "VariantsApiIsUnique": {
       "Type": "AWS::Serverless::Function",
       "Metadata": {
         "Tool": "Amazon.Lambda.Annotations",
@@ -320,10 +329,11 @@
       "Properties": {
         "Runtime": "dotnet8",
         "CodeUri": ".",
-        "MemorySize": 512,
+        "MemorySize": 128,
         "Timeout": 30,
         "Policies": [
-          "AWSLambdaBasicExecutionRole"
+          "AWSLambdaBasicExecutionRole",
+          "AmazonDynamoDBFullAccess"
         ],
         "PackageType": "Zip",
         "Handler": "VehicleTaxonomy.Aws.Api",
@@ -343,7 +353,7 @@
         }
       }
     },
-    "VehicleTaxonomyAwsApiVariantsApiAddVariantHandlerGenerated": {
+    "VariantsApiAdd": {
       "Type": "AWS::Serverless::Function",
       "Metadata": {
         "Tool": "Amazon.Lambda.Annotations",
@@ -354,10 +364,11 @@
       "Properties": {
         "Runtime": "dotnet8",
         "CodeUri": ".",
-        "MemorySize": 512,
+        "MemorySize": 128,
         "Timeout": 30,
         "Policies": [
-          "AWSLambdaBasicExecutionRole"
+          "AWSLambdaBasicExecutionRole",
+          "AmazonDynamoDBFullAccess"
         ],
         "PackageType": "Zip",
         "Handler": "VehicleTaxonomy.Aws.Api",
@@ -377,7 +388,7 @@
         }
       }
     },
-    "VehicleTaxonomyAwsApiVariantsApiDeleteVariantHandlerGenerated": {
+    "VariantsApiDeleteById": {
       "Type": "AWS::Serverless::Function",
       "Metadata": {
         "Tool": "Amazon.Lambda.Annotations",
@@ -388,10 +399,11 @@
       "Properties": {
         "Runtime": "dotnet8",
         "CodeUri": ".",
-        "MemorySize": 512,
+        "MemorySize": 128,
         "Timeout": 30,
         "Policies": [
-          "AWSLambdaBasicExecutionRole"
+          "AWSLambdaBasicExecutionRole",
+          "AmazonDynamoDBFullAccess"
         ],
         "PackageType": "Zip",
         "Handler": "VehicleTaxonomy.Aws.Api",
@@ -411,7 +423,7 @@
         }
       }
     },
-    "VehicleTaxonomyAwsApiDataImportApiTaxonomyImportGenerated": {
+    "DataImportApiTaxonomyImport": {
       "Type": "AWS::Serverless::Function",
       "Metadata": {
         "Tool": "Amazon.Lambda.Annotations",
@@ -423,9 +435,10 @@
         "Runtime": "dotnet8",
         "CodeUri": ".",
         "MemorySize": 512,
-        "Timeout": 30,
+        "Timeout": 900,
         "Policies": [
-          "AWSLambdaBasicExecutionRole"
+          "AWSLambdaBasicExecutionRole",
+          "AmazonDynamoDBFullAccess"
         ],
         "PackageType": "Zip",
         "Handler": "VehicleTaxonomy.Aws.Api",
@@ -445,7 +458,7 @@
         }
       }
     },
-    "VehicleTaxonomyAwsApiDataImportApiTaxonomyImportValidateGenerated": {
+    "DataImportApiTaxonomyValidate": {
       "Type": "AWS::Serverless::Function",
       "Metadata": {
         "Tool": "Amazon.Lambda.Annotations",
@@ -457,9 +470,10 @@
         "Runtime": "dotnet8",
         "CodeUri": ".",
         "MemorySize": 512,
-        "Timeout": 30,
+        "Timeout": 900,
         "Policies": [
-          "AWSLambdaBasicExecutionRole"
+          "AWSLambdaBasicExecutionRole",
+          "AmazonDynamoDBFullAccess"
         ],
         "PackageType": "Zip",
         "Handler": "VehicleTaxonomy.Aws.Api",

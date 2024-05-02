@@ -3,6 +3,12 @@ using Amazon.DynamoDBv2.Model;
 
 namespace VehicleTaxonomy.Aws.Infrastructure.Db;
 
+/// <summary>
+/// Definition used for creating the tample in automated tests.
+/// Changes here should be reflexted in the SAM template in the root of
+/// the repository which is used to define the schema for the deployed
+/// application.
+/// </summary>
 public class VehicleTaxonomyTableDefinition : IDynamoDbTableDefinition
 {
     public string TableName { get; } = "VehicleTaxonomy";

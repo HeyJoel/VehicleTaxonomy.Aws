@@ -35,7 +35,7 @@ public class DataImportApiTests
 
         var result = await dataImportApi.TaxonomyImport(
             importTaxonomyFromCsvCommandHandler,
-            stream,
+            TEST_CSV,
             context
             );
 
@@ -63,14 +63,14 @@ public class DataImportApiTests
 
         var result = await dataImportApi.TaxonomyImportValidate(
             importTaxonomyFromCsvCommandHandler,
-            stream,
+            TEST_CSV,
             context
             );
 
         var output = result.SerializeToText();
 
         InlineSnapshot.Validate(output, """
-            {"statusCode":200,"multiValueHeaders":{"content-type":["application/json"]},"body":"{\u0022IsValid\u0022:true,\u0022Result\u0022:{\u0022NumSuccess\u0022:0,\u0022NumSkipped\u0022:0,\u0022NumInvalid\u0022:0,\u0022Status\u0022:\u0022Finished\u0022,\u0022SkippedReasons\u0022:{},\u0022ValidationErrors\u0022:{}},\u0022ValidationErrors\u0022:[]}","isBase64Encoded":false}
+            {"statusCode":200,"multiValueHeaders":{"content-type":["application/json"]},"body":"{\u0022IsValid\u0022:true,\u0022Result\u0022:{\u0022NumSuccess\u0022:1,\u0022NumSkipped\u0022:0,\u0022NumInvalid\u0022:0,\u0022Status\u0022:\u0022Finished\u0022,\u0022SkippedReasons\u0022:{},\u0022ValidationErrors\u0022:{}},\u0022ValidationErrors\u0022:[]}","isBase64Encoded":false}
             """);
     }
 

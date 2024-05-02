@@ -3,6 +3,7 @@ using Amazon.Lambda.Core;
 using Amazon.Lambda.Serialization.SystemTextJson;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using VehicleTaxonomy.Aws.Api;
 using VehicleTaxonomy.Aws.Domain;
 
@@ -35,6 +36,10 @@ public class Startup
         services
             .AddSingleton<IConfiguration>(configuration)
             .AddSingleton(s => TimeProvider.System)
-            .AddDomain(configuration);
+            .AddDomain(configuration)
+            .AddLogging(logging =>
+            {
+                logging.AddLambdaLogger();
+            });
     }
 }

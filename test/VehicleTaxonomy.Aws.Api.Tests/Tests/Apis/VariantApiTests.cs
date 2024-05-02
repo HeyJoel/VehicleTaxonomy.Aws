@@ -38,7 +38,7 @@ public class VariantApiTests
         var output = result.SerializeToText();
 
         InlineSnapshot.Validate(output, """
-            {"statusCode":200,"multiValueHeaders":{"content-type":["application/json"]},"body":"{\u0022IsValid\u0022:true,\u0022Result\u0022:[{\u0022VariantId\u0022:\u0022vc-buzzster-1-3-turbo\u0022,\u0022Name\u0022:\u0022VC Buzzster 1.3 Turbo\u0022,\u0022FuelCategory\u0022:null,\u0022EngineSizeInCC\u0022:null},{\u0022VariantId\u0022:\u0022vc-se-2-0\u0022,\u0022Name\u0022:\u0022VC SE 2.0\u0022,\u0022FuelCategory\u0022:null,\u0022EngineSizeInCC\u0022:null}],\u0022ValidationErrors\u0022:[]}","isBase64Encoded":false}
+            {"statusCode":200,"multiValueHeaders":{"content-type":["application/json"]},"body":"{\u0022IsValid\u0022:true,\u0022Result\u0022:[{\u0022VariantId\u0022:\u0022vc-buzzster-1-3-turbo\u0022,\u0022Name\u0022:\u0022VC Buzzster 1.3 Turbo\u0022,\u0022FuelCategory\u0022:\u0022Petrol\u0022,\u0022EngineSizeInCC\u0022:2800},{\u0022VariantId\u0022:\u0022vc-se-2-0\u0022,\u0022Name\u0022:\u0022VC SE 2.0\u0022,\u0022FuelCategory\u0022:\u0022Petrol\u0022,\u0022EngineSizeInCC\u0022:2800}],\u0022ValidationErrors\u0022:[]}","isBase64Encoded":false}
             """);
     }
 

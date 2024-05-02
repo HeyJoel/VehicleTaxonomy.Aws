@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using VehicleTaxonomy.Aws.Domain.Variants;
 using VehicleTaxonomy.Aws.Infrastructure.Db;
 
 namespace VehicleTaxonomy.Aws.Api.Tests;
@@ -69,7 +70,12 @@ public class ServiceDependentFixture
                         Id = EntityIdFormatter.Format(variantName),
                         Name = variantName,
                         ParentMakeId = makeId,
-                        ParentModelId = modelId
+                        ParentModelId = modelId,
+                        VariantData = new()
+                        {
+                            EngineSizeInCC = 2800,
+                            FuelCategory = FuelCategory.Petrol.ToString()
+                        }
                     });
                 }
             }

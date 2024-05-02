@@ -9,7 +9,11 @@ public class VariantsApi
 {
     const string ROUTE_PREFIX = "/makes/{makeId}/models/{modelId}/variants";
 
-    [LambdaFunction]
+    [LambdaFunction(
+        Policies = LambdaDefaultConfig.Policies,
+        ResourceName = "VariantsApiList",
+        MemorySize = 128
+        )]
     [RestApi(LambdaHttpMethod.Get, ROUTE_PREFIX)]
     public async Task<IHttpResult> ListVariantsHandler(
         [FromServices] ListVariantsQueryHandler listVariantsQueryHandler,
@@ -29,7 +33,11 @@ public class VariantsApi
         return ApiResponseHelper.ToHttpResult(queryResponse);
     }
 
-    [LambdaFunction]
+    [LambdaFunction(
+        Policies = LambdaDefaultConfig.Policies,
+        ResourceName = "VariantsApiIsUnique",
+        MemorySize = 128
+        )]
     [RestApi(LambdaHttpMethod.Get, ROUTE_PREFIX + "/is-unique")]
     public async Task<IHttpResult> IsVariantUniqueHandler(
         [FromServices] IsVariantUniqueQueryHandler isVariantUniqueQueryHandler,
@@ -51,7 +59,11 @@ public class VariantsApi
         return ApiResponseHelper.ToHttpResult(queryResponse);
     }
 
-    [LambdaFunction]
+    [LambdaFunction(
+        Policies = LambdaDefaultConfig.Policies,
+        ResourceName = "VariantsApiAdd",
+        MemorySize = 128
+        )]
     [RestApi(LambdaHttpMethod.Post, ROUTE_PREFIX)]
     public async Task<IHttpResult> AddVariantHandler(
         [FromServices] AddVariantCommandHandler addVariantCommandHandler,
@@ -70,7 +82,11 @@ public class VariantsApi
         return ApiResponseHelper.ToHttpResult(commandResponse);
     }
 
-    [LambdaFunction]
+    [LambdaFunction(
+        Policies = LambdaDefaultConfig.Policies,
+        ResourceName = "VariantsApiDeleteById",
+        MemorySize = 128
+        )]
     [RestApi(LambdaHttpMethod.Delete, ROUTE_PREFIX + "/{variantId}")]
     public async Task<IHttpResult> DeleteVariantHandler(
         [FromServices] DeleteVariantCommandHandler deleteVariantCommandHandler,

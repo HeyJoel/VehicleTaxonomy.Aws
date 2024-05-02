@@ -1,3 +1,4 @@
+using System.Text;
 using Amazon.Lambda.Annotations;
 using Amazon.Lambda.Annotations.APIGateway;
 using Amazon.Lambda.Core;
@@ -10,16 +11,22 @@ public class DataImportApi
 {
     const string ROUTE_PREFIX = "/data-import";
 
-    [LambdaFunction]
+    [LambdaFunction(
+        Policies = LambdaDefaultConfig.Policies,
+        ResourceName = "DataImportApiTaxonomyImport"
+        )]
     [RestApi(LambdaHttpMethod.Post, ROUTE_PREFIX + "/taxonomy")]
     public async Task<IHttpResult> TaxonomyImport(
         [FromServices] ImportTaxonomyFromCsvCommandHandler importTaxonomyFromCsvCommandHandler,
-        [FromBody] Stream content,
+        [FromBody] string csvFile,
         ILambdaContext context
         )
     {
         context.Logger.LogInformation($"Executing {nameof(ImportTaxonomyFromCsvCommand)}");
-        var fileSource = new StreamFileSource(context.AwsRequestId, () => content);
+
+        var byteArray = Encoding.UTF8.GetBytes(csvFile);
+        using var inputStream = new MemoryStream(byteArray);
+        var fileSource = new StreamFileSource(context.AwsRequestId, () => inputStream);
 
         var commandResponse = await importTaxonomyFromCsvCommandHandler.ExecuteAsync(new()
         {
@@ -30,16 +37,24 @@ public class DataImportApi
         return ApiResponseHelper.ToHttpResult(commandResponse);
     }
 
-    [LambdaFunction]
+    [LambdaFunction(
+        Policies = LambdaDefaultConfig.Policies,
+        ResourceName = "DataImportApiTaxonomyValidate"
+        )]
     [RestApi(LambdaHttpMethod.Post, ROUTE_PREFIX + "/taxonomy/validate")]
     public async Task<IHttpResult> TaxonomyImportValidate(
         [FromServices] ImportTaxonomyFromCsvCommandHandler importTaxonomyFromCsvCommandHandler,
-        [FromBody] Stream content,
+        [FromBody] string csvFile,
         ILambdaContext context
         )
     {
         context.Logger.LogInformation($"Executing {nameof(ImportTaxonomyFromCsvCommand)}");
-        var fileSource = new StreamFileSource(context.AwsRequestId, () => content);
+        context.Logger.LogInformation($"Found file of length " + csvFile.Length);
+        context.Logger.LogInformation($"Recived: '{csvFile.Substring(0, 100)}'");
+
+        var byteArray = Encoding.UTF8.GetBytes(csvFile);
+        using var inputStream = new MemoryStream(byteArray);
+        var fileSource = new StreamFileSource(context.AwsRequestId, () => inputStream);
 
         var commandResponse = await importTaxonomyFromCsvCommandHandler.ExecuteAsync(new()
         {

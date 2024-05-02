@@ -1,7 +1,9 @@
 using System.Text.Json.Serialization;
 using Amazon.Lambda.APIGatewayEvents;
+using VehicleTaxonomy.Aws.Domain;
 using VehicleTaxonomy.Aws.Domain.Makes;
 using VehicleTaxonomy.Aws.Domain.Models;
+using VehicleTaxonomy.Aws.Domain.Variants;
 using VehicleTaxonomy.Aws.Infrastructure.DataImport;
 
 namespace VehicleTaxonomy.Aws.Api;
@@ -18,12 +20,19 @@ namespace VehicleTaxonomy.Aws.Api;
 [JsonSerializable(typeof(APIGatewayProxyRequest))]
 [JsonSerializable(typeof(APIGatewayProxyResponse))]
 [JsonSerializable(typeof(ApiResponse))]
+[JsonSerializable(typeof(AddEntityResult))]
 [JsonSerializable(typeof(Make))]
+[JsonSerializable(typeof(Make[]))]
 [JsonSerializable(typeof(AddMakeCommand))]
 [JsonSerializable(typeof(Model))]
+[JsonSerializable(typeof(Model[]))]
 [JsonSerializable(typeof(AddModelCommand))]
+[JsonSerializable(typeof(Variant))]
+[JsonSerializable(typeof(Variant[]))]
+[JsonSerializable(typeof(AddVariantCommand))]
 [JsonSerializable(typeof(DataImportJobResult))]
 [JsonSerializable(typeof(DataImportJobStatus))]
+[JsonSerializable(typeof(FuelCategory))]
 [JsonSourceGenerationOptions(
     UseStringEnumConverter = true, // NB: this doesn't seem to work unless you annotate the property itself, see DataImportJobResult.Status.
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]

@@ -61,6 +61,8 @@ public class ListVariantsQueryHandlerTests
                   Name: ListVariantsQH_CanListByMake1
                 - VariantId: listvariantsqh-canlistbymake12
                   Name: ListVariantsQH_CanListByMake12
+                  FuelCategory: ElectricHybridDiesel
+                  EngineSizeInCC: 1234
                 """);
         }
     }

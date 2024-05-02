@@ -31,6 +31,7 @@ public static class DependencyRegistration
         }
         else
         {
+            services.AddDefaultAWSOptions(configuration.GetAWSOptions());
             services.AddAWSService<IAmazonDynamoDB>();
         }
 

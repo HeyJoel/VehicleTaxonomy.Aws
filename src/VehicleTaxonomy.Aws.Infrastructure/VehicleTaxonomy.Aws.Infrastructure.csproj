@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
+    <TrimMode>partial</TrimMode>
   </PropertyGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="VehicleTaxonomy.Aws.Infrastructure.Tests"/>

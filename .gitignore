@@ -88,3 +88,4 @@ appsettings.local.json
 
 /docker
 .~lock.*
+.aws-sam/

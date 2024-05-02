@@ -149,8 +149,14 @@ internal sealed class VehicleTaxonomyRepository : IVehicleTaxonomyRepository, ID
         )
     {
         var id = dbVehicleTaxonomy.SK;
-        string? parentMakeId = null;
-        string? parentModelId = null;
+
+        var result = new VehicleTaxonomyDocument()
+        {
+            EntityType = entityType,
+            Id = id,
+            Name = dbVehicleTaxonomy.Name,
+            CreateDate = dbVehicleTaxonomy.CreateDate
+        };
 
         switch (entityType)
         {
@@ -163,33 +169,30 @@ internal sealed class VehicleTaxonomyRepository : IVehicleTaxonomyRepository, ID
                     {
                         throw new InvalidOperationException($"{nameof(dbVehicleTaxonomy.MakeId)} should not be empty for a make.");
                     }
-                    id = dbVehicleTaxonomy.MakeId;
+                    result.Id = dbVehicleTaxonomy.MakeId;
                 }
                 break;
             case VehicleTaxonomyEntity.Model:
                 // e.g. make#volkswagen#models
                 var modelPkParts = GetPartitionKeyParts(3);
-                parentModelId = modelPkParts[1];
+                result.ParentModelId = modelPkParts[1];
                 break;
             case VehicleTaxonomyEntity.Variant:
                 // e.g. make#volkswagen#model#bmw-3-series#variants
                 var variantPkParts = GetPartitionKeyParts(5);
-                parentMakeId = variantPkParts[1];
-                parentModelId = variantPkParts[3];
+                result.ParentMakeId = variantPkParts[1];
+                result.ParentModelId = variantPkParts[3];
+                result.VariantData = new()
+                {
+                    EngineSizeInCC = dbVehicleTaxonomy.EngineSizeInCC,
+                    FuelCategory = dbVehicleTaxonomy.FuelCategory
+                };
                 break;
             default:
                 throw new NotImplementedException($"Unknown taxonomy entity {entityType}.");
         }
 
-        return new VehicleTaxonomyDocument()
-        {
-            EntityType = entityType,
-            Id = id,
-            ParentMakeId = parentMakeId,
-            ParentModelId = parentModelId,
-            Name = dbVehicleTaxonomy.Name,
-            CreateDate = dbVehicleTaxonomy.CreateDate
-        };
+        return result;
 
         string[] GetPartitionKeyParts(int length)
         {
