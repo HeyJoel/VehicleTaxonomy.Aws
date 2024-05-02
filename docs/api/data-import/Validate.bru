@@ -1,0 +1,24 @@
+meta {
+  name: Validate
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/data-import/taxonomy/validate
+  body: text
+  auth: none
+}
+
+headers {
+  Content-Type: text/csv
+}
+
+body:text {
+  BodyType,Make,GenModel,Model,Fuel,EngineSizeSimple,EngineSizeDesc
+  Cars,ABARTH,ABARTH 124,124 GT MULTIAIR,Petrol,1400,1301cc to 1400cc
+  Cars,ABARTH,ABARTH 124,124 GT MULTIAIR AUTO,Petrol,1400,1301cc to 1400cc
+  Cars,ABARTH,ABARTH SPIDER,124 SPIDER MULTIAIR,Petrol,1400,1301cc to 1400cc
+  Cars,ABARTH,ABARTH SPIDER,124 SPIDER MULTIAIR AUTO,Petrol,1400,1301cc to 1400cc
+  Cars,ABARTH,ABARTH SPIDER,124 SPIDER SCORPIONE MULTIAIR,Petrol,1400,1301cc to 1400cc
+}

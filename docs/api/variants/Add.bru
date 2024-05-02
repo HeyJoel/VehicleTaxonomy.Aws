@@ -1,0 +1,19 @@
+meta {
+  name: Add
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/makes/dmc/models/delorean/variants
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "DeLorean 1983 2.8l Petrol",
+    "fuelCategory": "Petrol",
+    "engineSizeInCC": 2800
+  }
+}
