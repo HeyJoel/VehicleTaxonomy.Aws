@@ -6,26 +6,25 @@ namespace VehicleTaxonomy.Aws.Infrastructure.Db;
 internal class VehicleTaxonomy
 {
     /// <summary>
-    /// The Partition Key makeup depends on the entity e.g. for
-    /// make "make#{MakeId}", for model "make#{MakeId}#models"
-    /// or for variants "model#{ModelId}#variants". This allows
-    /// querying by PK to list makes and models while retaining
-    /// good cardinality. Make listing are done via a GSI on the
-    /// <see cref="MakeId"/> field.
+    /// The Partition Key composition depends on the entity e.g. for a make
+    /// the format will be "make#{MakeId}", for a model "make#{MakeId}#models"
+    /// or for variants "model#{ModelId}#variants". This allows querying by
+    /// PK to list makes and models while retaining good cardinality. Make
+    /// listing are done via a GSI on the <see cref="MakeId"/> field.
     /// </summary>
     [DynamoDBHashKey]
     public string PK { get; set; } = string.Empty;
 
     /// <summary>
     /// The sort key is always the entity id e.g. for make "volkswagen"
-    /// for model "volkswagen-polo" for variant "volkswagen-polo-polo-sport-1-3-petrol".
+    /// for model "volkswagen-polo" for variant "volkswagen-polo-polo-sport-1-3l-petrol".
     /// This allows the PK and SK to form a unique combination
     /// </summary>
     [DynamoDBRangeKey]
     public string SK { get; set; } = string.Empty;
 
     /// <summary>
-    /// Publically displayable name or title of the record e.g. "BMW" or
+    /// Publicly displayable name or title of the record e.g. "BMW" or
     /// "3 Series".
     /// </summary>
     public string Name { get; set; } = string.Empty;

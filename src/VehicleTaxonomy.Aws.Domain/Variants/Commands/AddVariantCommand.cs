@@ -18,7 +18,7 @@ public class AddVariantCommand
     public string ModelId { get; set; } = string.Empty;
 
     /// <summary>
-    /// The name of the variant e.g. "POLO MATCH TDI Diesel 1.5" or
+    /// The name of the variant e.g. "POLO MATCH TDI 1.5l Diesel" or
     /// "3008 ACCESS Petrol 1.6". This will be converted to an id that
     /// is passed back in the handler result.
     /// </summary>

@@ -17,7 +17,7 @@ public class IsVariantUniqueQuery
 
     /// <summary>
     /// Required. The name of the variant to check for uniqueness e.g.
-    /// "POLO MATCH TDI Diesel 1.5" or "3008 ACCESS Petrol 1.6". The uniqueness
+    /// "POLO MATCH TDI 1.5l Diesel" or "3008 ACCESS Petrol 1.6". The uniqueness
     /// check is based on the normalized version of the name which only includes
     /// letters (a-z), numbers and dashes, and is case-insensitive.
     /// </summary>

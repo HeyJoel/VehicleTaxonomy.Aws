@@ -1,0 +1,31 @@
+// Created with https://www.dbdiagram.io/
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table Make {
+  MakeId varchar [PK]
+  Name varchar
+  CreateDate timestamp 
+}
+
+Table Model {
+  ModelId varchar [PK]
+  MakeId varchar [ref: > Make.MakeId]
+  Name varchar
+  CreateDate timestamp 
+}
+
+Table Variant {
+  VariantId varchar [PK]
+  ModelId varchar [ref:  > Model.ModelId]
+  Name varchar
+  FuelCategoryId varchar [null, ref:  > FuelCategory.FuelCategoryId]
+  EngineSizeInCC int [null]
+
+  CreateDate timestamp 
+}
+
+Table FuelCategory {
+  FuelCategoryId varchar [PK]
+  Name varchar
+  CreateDate timestamp 
+}

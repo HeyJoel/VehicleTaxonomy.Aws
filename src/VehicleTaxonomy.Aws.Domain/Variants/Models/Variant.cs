@@ -6,20 +6,20 @@ namespace VehicleTaxonomy.Aws.Domain.Variants;
 /// AKA derivative or configuration. A specific configuration of
 /// a vehicle model combining attributes such as the "trim" level,
 /// fuel type and engine size e.g. Volkswagen Polo variants
-/// include "POLO MATCH TDI Diesel 1.5", "POLO S Petrol 1.2" and
-/// "POLO S 75 AUTO Petrol 1.4".
+/// include "POLO MATCH TDI 1.5l Diesel", "POLO S 1.2l Petrol" and
+/// "POLO S 75 AUTO 1.4l Petrol".
 /// </summary>
 public class Variant
 {
     /// <summary>
     /// A unique url-safe string identifier for the variant e.g.
-    /// "polo-match-tdi-deisel-1-5", "3008-access-petrol-1-6" or
+    /// "polo-match-tdi-1-5l-deisel", "3008-access-1-6l-petrol" or
     /// "id3-city-battery-electric".
     /// </summary>
     public string VariantId { get; set; } = string.Empty;
 
     /// <summary>
-    /// The name of the make e.g. "POLO MATCH TDI Diesel 1.5", "3008 ACCESS Petrol 1.6",
+    /// The name of the make e.g. "POLO MATCH TDI 1.5l Diesel", "3008 ACCESS Petrol 1.6",
     /// "ID3 CITY Battery electric" etc.
     /// </summary>
     public string Name { get; set; } = string.Empty;

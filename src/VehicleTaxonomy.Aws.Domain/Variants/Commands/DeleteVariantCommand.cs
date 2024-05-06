@@ -15,7 +15,7 @@ public class DeleteVariantCommand
     public string ModelId { get; set; } = string.Empty;
 
     /// <summary>
-    /// Id of the variant to delete e.g. "3008-access-petrol-1-6" or
+    /// Id of the variant to delete e.g. "3008-access-1-6l-petrol" or
     /// "id3-city-battery-electric".
     /// </summary>
     public string VariantId { get; set; } = string.Empty;
