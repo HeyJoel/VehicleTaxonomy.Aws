@@ -114,9 +114,10 @@ public class CsvDataImportJobRunner
             batches = [csvRows.ToArray()];
         }
 
-        var batchCount = 1;
+        var batchCount = 0;
         foreach (var batch in batches)
         {
+            batchCount++;
             if (batch.Length == 0)
             {
                 _logger.LogTrace("Batch {BatchNum} size is 0, skipping", batchCount);
@@ -147,9 +148,9 @@ public class CsvDataImportJobRunner
 
         var results = resultBuilder.Build();
         _logger.LogInformation(
-            "Import finished with status {Status}. Mode: {Mode}, Success: {NumSuccess}, Invalid: {NumInvalid}, Skipped: {NumSkipped}",
-            modeDescription,
+            "Import finished with status '{Status}'. Mode: {Mode}, Success: {NumSuccess}, Invalid: {NumInvalid}, Skipped: {NumSkipped}",
             results.Status,
+            modeDescription,
             results.NumSuccess,
             results.NumInvalid,
             results.NumSkipped

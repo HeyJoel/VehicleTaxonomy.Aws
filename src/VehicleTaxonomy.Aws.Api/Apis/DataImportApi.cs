@@ -48,9 +48,7 @@ public class DataImportApi
         ILambdaContext context
         )
     {
-        context.Logger.LogInformation($"Executing {nameof(ImportTaxonomyFromCsvCommand)}");
-        context.Logger.LogInformation($"Found file of length " + csvFile.Length);
-        context.Logger.LogInformation($"Recived: '{csvFile.Substring(0, 100)}'");
+        context.Logger.LogInformation($"Executing {nameof(ImportTaxonomyFromCsvCommand)} with mode {DataImportMode.Validate}");
 
         var byteArray = Encoding.UTF8.GetBytes(csvFile);
         using var inputStream = new MemoryStream(byteArray);

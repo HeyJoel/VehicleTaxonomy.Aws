@@ -2,15 +2,26 @@
 
 An example of a microservice that can be used to classify vehicles by make, model and variant. I have used this microservice to explore the AWS serverless stack, specifically:
 
-- Lambda
+- Lambda (.NET 8)
 - DynamoDb
 - SAM (Serverless Application Model)
+
+This example is also available in the following stacks:
+
+- [Azure Serverless (Functions, CosmosDb, Bicep)](https://github.com/HeyJoel/VehicleTaxonomy.Azure) 
+
+## Contents
+
+- [Design Overview](#design-overview)
+- [Local Development](#local-development)
+- [Deployment](#deployment)
+- [API Docs](#api-docs)
 
 ## Design Overview
 
 ### Domain Model
 
-The taxonomy API will use a simplified hierarchy of classifications and only cover a single vehicle type (cars):
+The taxonomy API will use a simplified hierarchy of classifications and only covers a single vehicle type (cars):
 
 - **Make:** AKA Brand or Marque. The retail name of the company that produces a range of vehicle models. Note that a parent company may own a range of makes e.g. "Volkswagen", "Audi" and "Porche" are all makes owned by the "Volkswagen Group" organisation.
 - **Model:** A model of vehicle often with a distinct shape and chassis e.g. for make "Volkswagen" modles could be "Polo", "ID.3", "Golf Plus" etc. A Make has many models, and a model can have many configurations or "variants".

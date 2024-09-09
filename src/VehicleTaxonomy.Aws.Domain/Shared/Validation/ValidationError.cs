@@ -32,7 +32,7 @@ public class ValidationError
     /// <summary>
     /// Optional property that the error message applies to.
     /// </summary>
-    public string? Property { get; set; } = string.Empty;
+    public string? Property { get; set; }
 
     /// <summary>
     /// Client-friendly text describing the error.
